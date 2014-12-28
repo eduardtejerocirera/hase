@@ -547,7 +547,7 @@ var DOMManager = {
     this.resetCounters();
     document.getElementById('Bigcontainer').remove();
     div = this.createDiv("Bigcontainer","Bigcontainer");
-    document.body.appendChild(div);
+    document.getElementById('Content').appendChild(div);
   },
 
 
@@ -566,11 +566,11 @@ var DOMManager = {
     this.items = items;
   },
 
-  printItems: function(text, type){
+  printItems: function(text, type, iVal, fVal){
     this.createBigContainer();
     this.setTitle(text);
     //console.log(this.items);
-    for (i = 0; i < this.items.length; i++){
+    for (i = iVal; i < this.items.length || i < fVal; i++){
       if (i % 4 == 0){
         this.createItemBoxDiv();
         this.nItemBox++;
@@ -687,7 +687,7 @@ var DOMManager = {
     }
     //console.log(items);
     DOMManager.setItems(items);
-    DOMManager.printItems("Searching "+ type + "s as " + txt, type);
+    DOMManager.printItems("Searching "+ type + "s as " + txt, type,0,20);
     
   },
 
@@ -720,7 +720,7 @@ var DOMManager = {
       items = APImanager.getAlbumsFromArtist(id, artist);
       console.log(items);
       DOMManager.setItems(items);
-      DOMManager.printItems("Albums from " + items[i].artist,"album");
+      DOMManager.printItems("Albums from " + items[i].artist,"album",0,20);
     }
   },
 
@@ -744,7 +744,7 @@ var DOMManager = {
       items = APImanager.getTracksFromAlbum(album);
       console.log(items);
       DOMManager.setItems(items);
-      DOMManager.printItems("Tracks from " + items[i].album,"track");
+      DOMManager.printItems("Tracks from " + items[i].album,"track",0,20);
     }
   },
 
@@ -847,7 +847,7 @@ var DOMManager = {
     mP = searchList();
     mP.items = APImanager.getMostPopular();
     DOMManager.setItems(mP.items);
-    DOMManager.printItems("Most Popular Albums", "album");
+    DOMManager.printItems("Most Popular Albums", "album", 0,20);
 
   }
  }
