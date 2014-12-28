@@ -533,6 +533,9 @@ var DBOps = {
 var DOMManager = {
   nItemBox: 0,
   nItem: 0,
+  type: null,
+  iVal: 0,
+  fVal: 20,
   items: [],
   
 
@@ -566,7 +569,7 @@ var DOMManager = {
     this.items = items;
   },
 
-  printItems: function(text, type, iVal, fVal){
+  printItems: function(text, iVal, fVal){
     this.createBigContainer();
     this.setTitle(text);
     //console.log(this.items);
@@ -575,18 +578,18 @@ var DOMManager = {
         this.createItemBoxDiv();
         this.nItemBox++;
       }
-      if (type === "album"){
+      if (this.type === "album"){
         this.renderAlbum(this.items[i], i);
       }
-      if (type === "artist"){
+      if (this.type === "artist"){
         this.renderArtist(this.items[i],i);
       }
     }
 
-    if (type == "artist"){
+    if (this.type == "artist"){
       Listener.addArtistListener();
     }
-    if (type == "album"){
+    if (this.type == "album"){
       Listener.addAlbumListener();
     }
 
@@ -670,24 +673,24 @@ var DOMManager = {
     
 
     type = DOMManager.getOptionComboBox();
-    type = this.setType(type);
+    DOMManager.type = this.setType(type);
 
     txt = document.getElementById('textbox').value;
-    j = APImanager.s_search(txt,type,0,20);
+    j = APImanager.s_search(txt,DOMManager.type,0,20);
     var items = [];
     
-    if (type === "album"){
-      items = APImanager.s_getData(j,'album'); 
+    if (DOMManager.type === "album"){
+      items = APImanager.s_getData(j,DOMManager.type); 
     }
-    if(type === "artist"){
-      items = APImanager.s_getData(j,'artist');
+    if(DOMManager.type === "artist"){
+      items = APImanager.s_getData(j, DOMManager.type);
     }
-    if(type === "track"){
+    if(DOMManager.type === "track"){
       console.log("Tracks!!!!!!!");
     }
     //console.log(items);
     DOMManager.setItems(items);
-    DOMManager.printItems("Searching "+ type + "s as " + txt, type,0,20);
+    DOMManager.printItems("Searching "+ DOMManager.type + "s as " + txt,0,20);
     
   },
 
@@ -709,7 +712,7 @@ var DOMManager = {
   },
 
   artistListener: function(){
-    var i  = event.path[1].id;
+    var i  = event.srcElement.parentElement.id;
     i = i.substring(4);
     if (i.length == 1){
       console.log(i);
@@ -720,7 +723,8 @@ var DOMManager = {
       items = APImanager.getAlbumsFromArtist(id, artist);
       console.log(items);
       DOMManager.setItems(items);
-      DOMManager.printItems("Albums from " + items[i].artist,"album",0,20);
+      DOMManager.type = "album";
+      DOMManager.printItems("Albums from " + items[i].artist,0,20);
     }
   },
 
@@ -744,7 +748,8 @@ var DOMManager = {
       items = APImanager.getTracksFromAlbum(album);
       console.log(items);
       DOMManager.setItems(items);
-      DOMManager.printItems("Tracks from " + items[i].album,"track",0,20);
+      DOMManager.type = "track";
+      DOMManager.printItems("Tracks from " + items[i].album,0,20);
     }
   },
 
@@ -847,7 +852,8 @@ var DOMManager = {
     mP = searchList();
     mP.items = APImanager.getMostPopular();
     DOMManager.setItems(mP.items);
-    DOMManager.printItems("Most Popular Albums", "album", 0,20);
+    DOMManager.type = "album";
+    DOMManager.printItems("Most Popular Albums", 0,20);
 
   }
  }
