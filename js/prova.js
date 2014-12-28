@@ -1,4 +1,6 @@
 
+
+
 //(function (){
 
 /*function start(){
@@ -163,7 +165,7 @@ xhr.send();
 
 //-------------------------------------------------------------------------------------------------
 
-
+/*
 function item (){
   return{
     album: "",
@@ -525,11 +527,6 @@ var DBOps = {
 
 
 
-
-
-
-
-
 var DOMManager = {
   nItemBox: 0,
   nItem: 0,
@@ -843,6 +840,7 @@ var DOMManager = {
       DOMManager.iVal = 80;
       DOMManager.fVal = 100;
     }*/
+    /*
     DOMManager.printItems("Most Popular Albums");
 
   },
@@ -860,22 +858,7 @@ var DOMManager = {
   }
 
   
- }
-
-/*var PlayVideosListener = {
-    init: function(links){
-      for (i= 0; i < links.length; i++){
-        var button = document.getElementById("play"+i);
-        var id = button.getAttribute("id").substring(4);
-        button.addEventListener("click",function(){
-            Video.replaceElement();
-        });
-      }
-    }
-
-  }*/
-
-
+ };
 
  var Principal = {
   main: function(){
@@ -943,6 +926,7 @@ var DOMManager = {
     
     //DBOps.createPlaylist("Hola");
     //DBOps.addTrackToPlaylist(sL.items[0],"PENE");
+    /*
     Listener.init();
     mP = [];
     mP = APImanager.getMostPopular();
@@ -953,5 +937,6 @@ var DOMManager = {
   }
  }
 
-
   document.addEventListener("DOMContentLoaded", Principal.main(), false);
+
+  */
