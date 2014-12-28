@@ -138,7 +138,15 @@ var Listener = {
       DOMManager.iVal = 80;
       DOMManager.fVal = 100;
     }*/
-    DOMManager.printItems("Most Popular Albums");
+    Animations.slideToLeft('Bigcontainer',2000);
+    //Afegim un delay per a poder fer l'animació
+    var delay=300;//2 seconds
+    setTimeout(function(){
+        DOMManager.printItems("Most Popular Albums");
+        Animations.translate('Bigcontainer',4000,0);
+        //Animations.slideToLeft('Bigcontainer',1000);
+    //your code to be executed after 1 seconds
+    },delay); 
 
   },
 
@@ -151,7 +159,15 @@ var Listener = {
       DOMManager.fVal = INCREMENT;
       DOMManager.page = 0;
     }
-    DOMManager.printItems("Most Popular Albums");
+    Animations.slideToRight('Bigcontainer',2000);
+     //Afegim un delay per a poder fer l'animació
+    var delay=200;//2 seconds
+    setTimeout(function(){
+        DOMManager.printItems("Most Popular Albums");
+        
+        //Animations.slideToLeft('Bigcontainer',1000);
+    //your code to be executed after 1 seconds
+    },delay); 
   },
 
   addPlaySongListener: function(){
