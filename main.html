@@ -12,49 +12,53 @@
 		<link rel="stylesheet" type="text/css" href="css/font-awesome.css"/>
 		 <meta name="viewport" content="width=device-width, initial-scale=1.0"/> 
 	</head>
-<body>
-	<div id="wrapper" >
-		<div id="header">
-			<i id="Menu" class="fa fa-align-justify"></i>
-			<p id="sound">SOUNDUP</p>
-		</div>
-		<div id="Content">	
-			<div class="Buscador">
-			    <div class="input-group">
-			    	<span class="input-group-btn" id = "searchButton">
-			      		<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-			      	</span>
-			      	<input type="text" class="form-control" id= "textbox">
-			    </div><!-- /input-group -->
-
-			     	<!-- Single button PER A SELECCIONAR ALBUMS ARTISTS SONGS-->
-				<form id = "myform">
-					<select id="mySelect">
-						<option>Artists</option>
-						<option>Albums</option>
-						<option>Track</option>
-
-						
-					</select>
-				</form>
-		 	</div><!-- /.col-lg-6 -->
-			<!-- Dins el Big Container hi col·locarem tots els albums-->
-			<div id="Bigcontainer">
-				
-
-
+	<body>
+		<div id="wrapper" >
+			<div id="header">
+				<p id="sound"><img id="Logo"  src="./icons/SOUNDUP-LOGO.svg"> SOUNDUP </p>
 			</div>
+			<div id="Content">	
+				<div class="Buscador">
+				    <div class="input-group">
+				    	<span class="input-group-btn" id = "searchButton">
+				      		<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+				      	</span>
+				      	<input type="text" class="form-control" id= "textbox">
+				    </div><!-- /input-group -->
+
+				     	<!-- Single button PER A SELECCIONAR ALBUMS ARTISTS SONGS-->
+					<form id = "myform">
+						<select id="mySelect">
+							<option>Artists</option>
+							<option>Albums</option>
+							<option>Track</option>
+
+							
+						</select>
+					</form>
+			 	</div><!-- /.col-lg-6 -->
+				<!-- Dins el Big Container hi col·locarem tots els albums-->
+				<div id="Bigcontainer" class="Bigcontainer">
+
+					
+
+
+				</div>
+			</div>
+			<i id="nextL" class="fa fa-chevron-circle-left"></i>
+			<i id="nextR" class="fa fa-chevron-circle-right"></i>
+			<div id="footer">
+				<p id="Textfooter">POWERED BY SPOTIFY <i id="Menu" class="fa fa-spotify"></i></p>
+				
+			</div>	
+			
 		</div>
-
-	<div id="footer">
 		
-	</div>
-</div>
-<script src="js/xml2json.js"></script>
-<script src="js/prova.js"></script>
-<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
-<script src="js/bootstrap.min.js"></script>	
+		<script src="js/xml2json.js"></script>
+		<script src="js/prova.js"></script>
+		<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>	
 
-</body>
+	</body>
 
 </html>
