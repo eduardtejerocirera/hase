@@ -28,7 +28,7 @@
 	#header p{
 		color: rgb(4, 136, 160);
 		font-family: 'Hammersmith One', sans-serif;
-		padding-left: 40%;
+		padding-left: 36%;
 		font-size: 365%;
 	}
 
@@ -81,6 +81,17 @@
 		margin-right: 8%;
 		box-shadow: 10px 10px 5px rgba(40, 76, 72, 0.31);
 		width: 85%;	
+	}
+	#Bigcontainer2{
+		background-color: rgba(174, 173, 173, 0.23);
+		border: 0.5;
+		border-radius: 26px;
+		position: absolute;
+		margin-left: 8%;
+		margin-right: 8%;
+		box-shadow: 10px 10px 5px rgba(40, 76, 72, 0.31);
+		width: 50%;	
+
 	}
 	#Bigcontainer h3{
 		padding-top: 3%;
@@ -154,6 +165,13 @@
 		float: left;
 		position: fixed;
 		cursor: pointer;
+	}
+	#Logo{
+		padding: 1%;
+width: 10%;
+display: inline-block;
+margin: auto;
+
 	}
 	
 	/*-----------------------------BOOTSRAP REDESIGN-------------------------------*/
