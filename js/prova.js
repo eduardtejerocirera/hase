@@ -366,9 +366,9 @@ function searchList (){
     url = "http://ws.spotify.com/search/1/album.json?q=year:0-3000";
     method = "GET";
     jBig = this.request(method, url);
-    //console.log(jBig);
+    console.log(jBig);
     albums = [];
-    for (i = 0; i < 20; i++){
+    for (i = 0; i < 100; i++){
       length = jBig.albums[i].href.length;
       id = jBig.albums[i].href.substring(14,length);
       a = item();
@@ -537,6 +537,7 @@ var DOMManager = {
   iVal: 0,
   fVal: 20,
   items: [],
+  page: 0,
   
 
   createDiv:function(id,className){
@@ -569,20 +570,25 @@ var DOMManager = {
     this.items = items;
   },
 
-  printItems: function(text, iVal, fVal){
+  printItems: function(text){
     this.createBigContainer();
+    this.createNexPreviousButtons();
     this.setTitle(text);
-    console.log(this.items.length);
-    for (i = iVal; i < this.items.length && i < fVal; i++){
+    console.log("page ="+ this.page);
+    console.log("iVal ="+ this.iVal);
+    console.log("fVal ="+ this.fVal);
+    console.log("length de items = "+ this.items.length);
+    for (i = this.iVal; i < this.items.length && i < this.fVal; i++){
+      console.log(i);
       if (i % 4 == 0){
         this.createItemBoxDiv();
         this.nItemBox++;
       }
       if (this.type === "album"){
-        this.renderAlbum(this.items[i], i);
+        this.renderAlbum(this.items[i], i - this.page*20);
       }
       if (this.type === "artist"){
-        this.renderArtist(this.items[i],i);
+        this.renderArtist(this.items[i],i - this.page*20);
       }
     }
 
@@ -592,9 +598,6 @@ var DOMManager = {
     if (this.type == "album"){
       Listener.addAlbumListener();
     }
-
-
-
   },
 
   createImage: function(url){
@@ -605,7 +608,7 @@ var DOMManager = {
   },
 
   renderAlbum: function(element, album){
-    console.log(element);
+    //console.log(element);
     this.createItemDiv(this.nItemBox - 1);
     img = this.createImage(element.img_url);
     document.getElementById("item" + album).appendChild(img);
@@ -654,6 +657,47 @@ var DOMManager = {
     var obj = document.getElementById("mySelect");
     var txt = obj.options[obj.selectedIndex].text;
     return txt;
+  },
+
+  createNextPageButton: function(parentid){
+    i = document.createElement('i');
+    i.setAttribute("id","nextR");
+    i.setAttribute("class","fa fa-chevron-circle-right");
+    document.getElementById(parentid).appendChild(i);
+  },
+  createPreviousPageButton: function(parentid){
+    i = document.createElement('i');
+    i.setAttribute("id","nextL");
+    i.setAttribute("class","fa fa-chevron-circle-left");
+    document.getElementById(parentid).appendChild(i);
+  },
+  
+  createNexPreviousButtons: function(){
+    div = document.getElementById("arrows");
+    
+    if (div != null){
+      div.remove();
+    }
+
+    div = this.createDiv("arrows","arrows");
+    document.getElementById('Content').appendChild(div);
+    if (this.page != 0){
+      console.log("Prev");
+      this.createPreviousPageButton("arrows");
+      Listener.addPreviousButtonListener();
+    }
+    if(this.items.length > 20){
+      console.log("Next");
+      this.createNextPageButton("arrows");
+      Listener.addNextButtonListener();
+    }
+  },
+
+  resetPages: function(){
+    console.log("Reset!");
+    this.page = 0;
+    this.iVal = 0;
+    this.fVal = 20;
   }
 
 
@@ -670,7 +714,7 @@ var DOMManager = {
   },
 
   searchListener: function(){
-    
+    DOMManager.resetPages();
 
     type = DOMManager.getOptionComboBox();
     DOMManager.type = this.setType(type);
@@ -690,7 +734,7 @@ var DOMManager = {
     }
     //console.log(items);
     DOMManager.setItems(items);
-    DOMManager.printItems("Searching "+ DOMManager.type + "s as " + txt,0,20);
+    DOMManager.printItems("Searching "+ DOMManager.type + "s as " + txt);
     
   },
 
@@ -702,8 +746,8 @@ var DOMManager = {
   },
 
   addArtistListener: function(){
-    //console.log(DOMManager.items.length);
-    for (i = 0; i < DOMManager.items.length; i++){
+    //console.log(DOMManager.nItem);
+    for (i = 0; i < DOMManager.nItem; i++){
       var artist = document.getElementById("item"+i);
       artist.addEventListener("click",function(){
         Listener.artistListener();
@@ -712,11 +756,9 @@ var DOMManager = {
   },
 
   artistListener: function(){
-    var i  = event.srcElement.parentElement.id;
-    i = i.substring(4);
-    if (i.length == 1){
-      console.log(i);
-      i = parseInt(i);
+    var i  = this.getIdFromEvent(event);
+    if (i != -1){
+      i = i + DOMManager.page*20;
       id = DOMManager.items[i].spotify_artist_id;
       artist = DOMManager.items[i].name;
       var items = [];
@@ -724,12 +766,14 @@ var DOMManager = {
       console.log(items);
       DOMManager.setItems(items);
       DOMManager.type = "album";
-      DOMManager.printItems("Albums from " + items[i].artist,0,20);
+      DOMManager.printItems("Albums from " + artist.artist);
     }
   },
 
   addAlbumListener: function(){
-    for (i = 0; i < DOMManager.items.length; i++){
+    console.log(DOMManager.nItem);
+    for (i = 0; i < DOMManager.nItem; i++){
+      console.log(i);
       var album = document.getElementById("item"+i);
       album.addEventListener("click",function(){
         Listener.albumListener();
@@ -738,19 +782,29 @@ var DOMManager = {
   },
 
   albumListener: function(){
-    var i  = event.srcElement.parentElement.id;
-    i = i.substring(4);
-    if (i.length == 1){
-      console.log(i);
-      i = parseInt(i);
+    var i = this.getIdFromEvent(event);
+    if (i != -1){
+      i = i + DOMManager.page*20;
       album = DOMManager.items[i];
       var items = [];
       items = APImanager.getTracksFromAlbum(album);
       console.log(items);
       DOMManager.setItems(items);
       DOMManager.type = "track";
-      DOMManager.printItems("Tracks from " + items[i].album,0,20);
+      DOMManager.printItems("Tracks from " + album.name);
     }
+  },
+
+  getIdFromEvent: function(event){
+    var i  = event.srcElement.parentElement.id;
+    i = i.substring(4);
+    //console.log(i);
+    if (i.length == 1 || i.length == 2){
+      i = parseInt(i);
+    }else{
+      i = -1;
+    }
+    return i;
   },
 
   setType: function(type){
@@ -763,7 +817,48 @@ var DOMManager = {
     if(type === "Tracks"){
       return "track";
     }
+  },
+
+  addPreviousButtonListener: function(){
+    console.log("adios");
+    button = document.getElementById("nextL");
+    button.addEventListener("click", function(){
+      Listener.previousPage();
+    });
+  },
+
+  addNextButtonListener: function(){
+    console.log("hola");
+    button = document.getElementById("nextR");
+    button.addEventListener("click", function(){
+      Listener.nextPage();
+    });
+  },
+
+  nextPage: function(){
+    DOMManager.page ++;
+    DOMManager.iVal += 20;
+    DOMManager.fVal += 20;
+    /*if (DOMManager.fVal > 100){
+      DOMManager.iVal = 80;
+      DOMManager.fVal = 100;
+    }*/
+    DOMManager.printItems("Most Popular Albums");
+
+  },
+
+  previousPage: function(){
+    DOMManager.page --;
+    DOMManager.iVal -= 20;
+    DOMManager.fVal -= 20;
+    if (DOMManager.iVal < 0){
+      DOMManager.iVal = 0;
+      DOMManager.fVal = 20;
+      DOMManager.page = 0;
+    }
+    DOMManager.printItems("Most Popular Albums");
   }
+
   
  }
 
@@ -849,11 +944,11 @@ var DOMManager = {
     //DBOps.createPlaylist("Hola");
     //DBOps.addTrackToPlaylist(sL.items[0],"PENE");
     Listener.init();
-    mP = searchList();
-    mP.items = APImanager.getMostPopular();
-    DOMManager.setItems(mP.items);
+    mP = [];
+    mP = APImanager.getMostPopular();
+    DOMManager.setItems(mP);
     DOMManager.type = "album";
-    DOMManager.printItems("Most Popular Albums", 0,20);
+    DOMManager.printItems("Most Popular Albums");
 
   }
  }
