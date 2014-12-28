@@ -173,6 +173,10 @@ display: inline-block;
 margin: auto;
 
 	}
+	#play{
+		cursor: pointer;
+
+	}
 	
 	/*-----------------------------BOOTSRAP REDESIGN-------------------------------*/
 	/* Boto amb la lupa del buscador*/
