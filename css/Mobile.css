@@ -16,7 +16,7 @@
 	#header p{
 		color: rgb(4, 136, 160);
 		font-family: 'Hammersmith One', sans-serif;
-		padding-left: 18%;
+		padding-left: 23%;
 		font-size: 274%;
 		
 	}
@@ -46,7 +46,7 @@
 		margin-left: 15px;
 		margin-right: 15px;
 		box-shadow: 10px 10px 5px rgba(40, 76, 72, 0.31);
-			
+		margin-bottom: 4%;	
 	}
 	.album{
 		margin-left: 20%;
@@ -131,6 +131,23 @@
 		margin-left: 30%;
 		
 	}
+	#nextR{
+
+		margin-left: 89%;
+		font-size: 800%;
+		float: right;
+		position: fixed;
+		cursor: pointer;
+
+	}
+	#nextL{
+		margin-left: 4.4%;
+		width: 50%;
+		font-size: 800%;
+		float: left;
+		position: fixed;
+		cursor: pointer;
+	}
 	#Logo{
 		padding: 1%;
 		width: 16%;
@@ -138,8 +155,39 @@
 		margin: auto;
 
 	}
+	#footer p{
+		padding-top: 0.5%;
+		margin: auto;
+		color: rgb(3, 3, 3);
+		width: 34%;
+		font-family: 'Hammersmith One', sans-serif;
+	}
+	#nextR{
+
+		top: 33%;
+		margin-left: 84%;
+		font-size: 500%;
+		float: right;
+		position: fixed;
+		cursor: pointer;
+
+	}
+	#nextL{
+	top: 33%;
+	margin-left: 3%;
+	font-size: 500%;
+	float: right;
+	position: fixed;
+	cursor: pointer;
+	}
 	/*-----------------------------BOOTSRAP REDESIGN-------------------------------*/
 	/* Boto amb la lupa del buscador*/
+	.dropdown-toggle.btn-default {
+		color: #FFFFFF;
+		background-color:rgba(230, 230, 230, 0.18);
+		border-color: #adadad;
+		background-color: rgba(255, 0, 0, 0);
+	}
 	.btn-default{
 		background-color: rgba(255, 255, 255, 0.19);
 		border-radius: 14px;

@@ -81,6 +81,7 @@
 		margin-right: 8%;
 		box-shadow: 10px 10px 5px rgba(40, 76, 72, 0.31);
 		width: 85%;	
+		margin-bottom: 4%;
 	}
 	#Bigcontainer2{
 		background-color: rgba(174, 173, 173, 0.23);
@@ -168,14 +169,12 @@
 	}
 	#Logo{
 		padding: 1%;
-width: 10%;
-display: inline-block;
-margin: auto;
-
+		width: 10%;
+		display: inline-block;
+		margin: auto;
 	}
 	#play{
 		cursor: pointer;
-
 	}
 	
 	/*-----------------------------BOOTSRAP REDESIGN-------------------------------*/
