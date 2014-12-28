@@ -10,20 +10,22 @@ var Listener = {
     DOMManager.type = this.setType(type);
 
     txt = document.getElementById('textbox').value;
-    j = APImanager.s_search(txt,DOMManager.type,0,20);
+    j = APImanager.s_search(txt,DOMManager.type,0,INCREMENT);
     var items = [];
     
-    if (DOMManager.type === "album"){
+    /*if (DOMManager.type === "album"){
       items = APImanager.s_getData(j,DOMManager.type); 
     }
     if(DOMManager.type === "artist"){
       items = APImanager.s_getData(j, DOMManager.type);
     }
     if(DOMManager.type === "track"){
-      console.log("Tracks!!!!!!!");
-    }
+      items = APImanager.s_getData(j, DOMManager.type);
+    }*/
+
     //console.log(items);
-    DOMManager.setItems(items);
+    //DOMManager.items = items;
+    DOMManager.items = APImanager.s_getData(j, DOMManager.type);
     DOMManager.printItems("Searching "+ DOMManager.type + "s as " + txt);
     
   },
@@ -48,14 +50,15 @@ var Listener = {
   artistListener: function(){
     var i  = this.getIdFromEvent(event);
     if (i != -1){
-      i = i + DOMManager.page*20;
+      i = i + DOMManager.page*INCREMENT;
       id = DOMManager.items[i].spotify_artist_id;
       artist = DOMManager.items[i].name;
       var items = [];
       items = APImanager.getAlbumsFromArtist(id, artist);
       console.log(items);
-      DOMManager.setItems(items);
+      DOMManager.items = items;
       DOMManager.type = "album";
+      DOMManager.resetPages();
       DOMManager.printItems("Albums from " + artist.artist);
     }
   },
@@ -74,14 +77,16 @@ var Listener = {
   albumListener: function(){
     var i = this.getIdFromEvent(event);
     if (i != -1){
-      i = i + DOMManager.page*20;
+      i = i + DOMManager.page*INCREMENT;
       album = DOMManager.items[i];
       var items = [];
       items = APImanager.getTracksFromAlbum(album);
       console.log(items);
-      DOMManager.setItems(items);
+      DOMManager.items = items;
       DOMManager.type = "track";
+      DOMManager.resetPages();
       DOMManager.printItems("Tracks from " + album.name);
+
     }
   },
 
@@ -110,7 +115,7 @@ var Listener = {
   },
 
   addPreviousButtonListener: function(){
-    console.log("adios");
+    //console.log("adios");
     button = document.getElementById("nextL");
     button.addEventListener("click", function(){
       Listener.previousPage();
@@ -118,7 +123,7 @@ var Listener = {
   },
 
   addNextButtonListener: function(){
-    console.log("hola");
+    //console.log("hola");
     button = document.getElementById("nextR");
     button.addEventListener("click", function(){
       Listener.nextPage();
@@ -127,8 +132,8 @@ var Listener = {
 
   nextPage: function(){
     DOMManager.page ++;
-    DOMManager.iVal += 20;
-    DOMManager.fVal += 20;
+    DOMManager.iVal += INCREMENT;
+    DOMManager.fVal += INCREMENT;
     /*if (DOMManager.fVal > 100){
       DOMManager.iVal = 80;
       DOMManager.fVal = 100;
@@ -139,11 +144,11 @@ var Listener = {
 
   previousPage: function(){
     DOMManager.page --;
-    DOMManager.iVal -= 20;
-    DOMManager.fVal -= 20;
+    DOMManager.iVal -= INCREMENT;
+    DOMManager.fVal -= INCREMENT;
     if (DOMManager.iVal < 0){
       DOMManager.iVal = 0;
-      DOMManager.fVal = 20;
+      DOMManager.fVal = INCREMENT;
       DOMManager.page = 0;
     }
     DOMManager.printItems("Most Popular Albums");

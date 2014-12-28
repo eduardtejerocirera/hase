@@ -1,9 +1,13 @@
+
+
+var INCREMENT = 20;
+
 var DOMManager = {
   nItemBox: 0,
   nItem: 0,
   type: null,
   iVal: 0,
-  fVal: 20,
+  fVal: INCREMENT,
   items: [],
   page: 0,
   
@@ -34,10 +38,6 @@ var DOMManager = {
     document.getElementById("itembox" + itembox).appendChild(div);
   },
 
-  setItems: function(items){
-    this.items = items;
-  },
-
   printItems: function(text){
     this.createBigContainer();
     this.createNexPreviousButtons();
@@ -53,10 +53,14 @@ var DOMManager = {
         this.nItemBox++;
       }
       if (this.type === "album"){
-        this.renderAlbum(this.items[i], i - this.page*20);
+        this.renderAlbum(this.items[i], i - this.page*INCREMENT);
       }
       if (this.type === "artist"){
-        this.renderArtist(this.items[i],i - this.page*20);
+        this.renderArtist(this.items[i],i - this.page*INCREMENT);
+      }
+      if (this.type === "track"){
+        console.log("Print Track");
+        this.printTracks(this.items[i], i - this.page*INCREMENT);
       }
     }
 
@@ -162,12 +166,84 @@ var DOMManager = {
   },
 
   resetPages: function(){
-    console.log("Reset!");
     this.page = 0;
     this.iVal = 0;
-    this.fVal = 20;
+    this.fVal = INCREMENT;
+  },
+
+  printTracks: function(element, i){
+    
+    if (i ==  0){
+      this.createTable();
+    }
+    
+    cell1 = this.NewCell(element.name);
+    cell2 = this.NewCell(element.album);
+    cell3 = this.NewCell(element.artist);
+    cellnum = this.NewCell(i+1 + this.iVal);
+    cellplay = this.NewPlayCell(i);
+    row = this.NewRow(cell1, cell2, cell3, cellnum, cellplay);
+    document.getElementById("table-body").appendChild(row);
+  },
+  
+  createTable: function(){ 
+    t = document.createElement("table");
+    t.setAttribute("class", "table table-hover");
+    t = this.createTableHeader(t);
+    t = this.createTableBody(t);
+    document.getElementById("Bigcontainer").appendChild(t);
+  },
+  
+  createTableHeader: function(parent){
+    head = document.createElement("thead");
+    hnum = this.NewHeader("#");
+    h1 = this.NewHeader("Track");
+    h2 = this.NewHeader("Album");
+    h3 = this.NewHeader("Artist");
+    hplay = this.NewHeader(" ");
+    row = this.NewRow(h1,h2,h3,hnum,hplay);
+    head.appendChild(row);
+    parent.appendChild(head);
+    return parent;
+  },
+
+  createTableBody: function(parent){
+    body = document.createElement("tbody");
+    body.setAttribute("id","table-body");
+    parent.appendChild(body);
+    return parent;
+  },
+
+  NewHeader: function(name){
+    column = document.createElement("th");
+    column.innerHTML = name;
+    return column;
+  },
+
+  NewRow: function(e1, e2, e3, num, play){
+    row = document.createElement("tr");
+    row.appendChild(num);
+    row.appendChild(play);
+    row.appendChild(e1);
+    row.appendChild(e2);
+    row.appendChild(e3);
+        return row;
+  },
+
+  NewCell: function(text){
+    cell = document.createElement("td");
+    cell.innerHTML = text;
+    return cell;
+  },
+
+  NewPlayCell: function(i){
+    cell = document.createElement("td");
+    cell.setAttribute("class", "play");
+    play = document.createElement("i");
+    play.setAttribute("class","fa fa-play");
+    play.setAttribute("id","play"+i);
+    cell.appendChild(play);
+    return cell;
   }
-
-
 
  }; 

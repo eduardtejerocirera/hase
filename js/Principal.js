@@ -257,7 +257,7 @@ function searchList (){
     Listener.init();
     mP = [];
     mP = APImanager.getMostPopular();
-    DOMManager.setItems(mP);
+    DOMManager.items = mP;
     DOMManager.type = "album";
     DOMManager.printItems("Most Popular Albums");
 
