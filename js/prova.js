@@ -572,8 +572,8 @@ var DOMManager = {
   printItems: function(text, iVal, fVal){
     this.createBigContainer();
     this.setTitle(text);
-    //console.log(this.items);
-    for (i = iVal; i < this.items.length || i < fVal; i++){
+    console.log(this.items.length);
+    for (i = iVal; i < this.items.length && i < fVal; i++){
       if (i % 4 == 0){
         this.createItemBoxDiv();
         this.nItemBox++;
@@ -605,7 +605,7 @@ var DOMManager = {
   },
 
   renderAlbum: function(element, album){
-    //console.log("Album");
+    console.log(element);
     this.createItemDiv(this.nItemBox - 1);
     img = this.createImage(element.img_url);
     document.getElementById("item" + album).appendChild(img);
