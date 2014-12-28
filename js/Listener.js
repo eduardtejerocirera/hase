@@ -48,14 +48,14 @@ var Listener = {
   },
 
   artistListener: function(){
-    var i  = this.getIdFromEvent(event);
+    var i  = this.getIdFromEvent(event.srcElement.parentElement.id);
     if (i != -1){
       i = i + DOMManager.page*INCREMENT;
       id = DOMManager.items[i].spotify_artist_id;
       artist = DOMManager.items[i].name;
       var items = [];
       items = APImanager.getAlbumsFromArtist(id, artist);
-      console.log(items);
+      //console.log(items);
       DOMManager.items = items;
       DOMManager.type = "album";
       DOMManager.resetPages();
@@ -66,7 +66,7 @@ var Listener = {
   addAlbumListener: function(){
     console.log(DOMManager.nItem);
     for (i = 0; i < DOMManager.nItem; i++){
-      console.log(i);
+      //console.log(i);
       var album = document.getElementById("item"+i);
       album.addEventListener("click",function(){
         Listener.albumListener();
@@ -75,13 +75,13 @@ var Listener = {
   },
 
   albumListener: function(){
-    var i = this.getIdFromEvent(event);
+    var i = this.getIdFromEvent(event.srcElement.parentElement.id);
     if (i != -1){
       i = i + DOMManager.page*INCREMENT;
       album = DOMManager.items[i];
       var items = [];
       items = APImanager.getTracksFromAlbum(album);
-      console.log(items);
+      //console.log(items);
       DOMManager.items = items;
       DOMManager.type = "track";
       DOMManager.resetPages();
@@ -90,8 +90,8 @@ var Listener = {
     }
   },
 
-  getIdFromEvent: function(event){
-    var i  = event.srcElement.parentElement.id;
+  getIdFromEvent: function(id){
+    var i  = id;
     i = i.substring(4);
     //console.log(i);
     if (i.length == 1 || i.length == 2){
@@ -152,6 +152,36 @@ var Listener = {
       DOMManager.page = 0;
     }
     DOMManager.printItems("Most Popular Albums");
+  },
+
+  addPlaySongListener: function(){
+    console.log(DOMManager.nItem);
+    console.log("adding!");
+    for (i = 0; i < DOMManager.nItem; i++){
+      //console.log(i);
+      var play = document.getElementById("play"+i);
+      play.addEventListener("click",function(){
+        Listener.PlaySongListener();
+      });
+    }
+  },
+
+  PlaySongListener:function(){
+    
+    var i = this.getIdFromEvent(event.srcElement.id);
+    //console.log(i);
+    if (i != -1){
+      i = i + DOMManager.page*INCREMENT;
+      artist = DOMManager.items[i].artist;
+      track = DOMManager.items[i].name;
+      //console.log(track+" "+artist);
+      video = APImanager.y_getVideo(artist,track);
+      console.log(video);
+      DOMManager.destroyVideos();
+      DOMManager.embedVideo(video,i);
+      //DOMManager.resetPages();
+      //DOMManager.printItems("Albums from " + artist.artist);
+    }
   }
 
   

@@ -232,7 +232,7 @@ var APImanager = {
       //console.log(name);
 
       method = "GET";
-      url = "http://gdata.youtube.com/feeds/api/videos?q="+artist+ "+" +name+ "&max-results=10&v=2";
+      url = "http://gdata.youtube.com/feeds/api/videos?q="+artist+ "+" +name+ "+live&max-results=10&v=2";
       j = this.y_request(method,url);
       //console.log(j);
       video = j.feed.entry[0].content._src;

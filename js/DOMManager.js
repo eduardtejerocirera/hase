@@ -70,6 +70,9 @@ var DOMManager = {
     if (this.type == "album"){
       Listener.addAlbumListener();
     }
+    if (this.type == "track"){
+      Listener.addPlaySongListener();
+    }
   },
 
   createImage: function(url){
@@ -184,6 +187,7 @@ var DOMManager = {
     cellplay = this.NewPlayCell(i);
     row = this.NewRow(cell1, cell2, cell3, cellnum, cellplay);
     document.getElementById("table-body").appendChild(row);
+    this.nItem++;
   },
   
   createTable: function(){ 
@@ -239,11 +243,31 @@ var DOMManager = {
   NewPlayCell: function(i){
     cell = document.createElement("td");
     cell.setAttribute("class", "play");
+    cell.setAttribute("id","td-play"+i);
     play = document.createElement("i");
     play.setAttribute("class","fa fa-play");
     play.setAttribute("id","play"+i);
     cell.appendChild(play);
     return cell;
+  },
+
+  embedVideo: function(url,i){
+      var video = document.createElement("embed");
+      video.setAttribute("src", url+"?rel=0&autoplay=1");
+      //console.log(this.links[parseInt(i)]+"?rel=0&autoplay=1");
+      video.setAttribute("id", "song"+i);
+      video.setAttribute("class","song");
+
+      document.getElementById("td-play"+i).appendChild(video);
+  },
+
+  destroyVideos: function(){
+    var videos = document.getElementsByClassName("song");
+    for(i = 0; i < videos.length; i++){
+      id = videos[i].getAttribute("id");
+      document.getElementById(id).remove();
+      //cell = document.getElementById("td-play"+i);
+    }
   }
 
  }; 

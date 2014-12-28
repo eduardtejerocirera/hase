@@ -76,4 +76,18 @@ var DBOps = {
     }
     return true;
   },
+
+  emptyDB: function(){
+    this.truncateTable("track");
+    this.truncateTable("playlist");
+    this.truncateTable("playlist_track");
+  },
+
+  truncateTable: function(table){
+    method = "PUT";
+    query = "TRUNCATE TABLE hipermedia."+table;
+    j = this.request(method,query);
+    console.log(j);  
+  }
+
 };

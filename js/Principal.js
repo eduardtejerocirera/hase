@@ -254,12 +254,17 @@ function searchList (){
     
     //DBOps.createPlaylist("Hola");
     //DBOps.addTrackToPlaylist(sL.items[0],"PENE");
+    
+
+
     Listener.init();
     mP = [];
     mP = APImanager.getMostPopular();
     DOMManager.items = mP;
     DOMManager.type = "album";
     DOMManager.printItems("Most Popular Albums");
+
+    //DBOps.emptyDB();
 
   }
  }
