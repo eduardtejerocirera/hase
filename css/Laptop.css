@@ -151,18 +151,16 @@
 		font-family: 'Hammersmith One', sans-serif;
 	}
 	#nextR{
-
-		margin-left: 89%;
-		font-size: 800%;
+		margin-left: 93.5%;
+		font-size: 600%;
 		float: right;
 		position: fixed;
 		cursor: pointer;
-
 	}
 	#nextL{
-		margin-left: 4.4%;
+		margin-left: 1.4%;
 		width: 50%;
-		font-size: 800%;
+		font-size: 600%;
 		float: left;
 		position: fixed;
 		cursor: pointer;
