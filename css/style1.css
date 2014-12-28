@@ -1,0 +1,367 @@
+@import url(http://fonts.googleapis.com/css?family=Hammersmith+One);
+
+
+
+/*----------------------MEDIA QUERIES--------------------------*/
+/* Smartphones iPhone 6 (portrait and landscape) ----------- */
+@media only screen and (min-width : 320px)and (max-width : 480px) {
+/* Styles */
+	
+
+	header{
+		background-color: rgba(2, 1, 1, 1);
+		margin-bottom: 10px;
+
+	}
+	header p{
+		color: rgb(4, 136, 160);
+		font-family: 'Hammersmith One', sans-serif;
+		padding-left: 33%;
+		font-size: 274%;
+		
+	}
+
+	.title{
+		margin:auto;
+		width: 100%;
+	}
+	body{
+	background-image: url("./640x960.jpg");
+    background-size: 200%;   
+	}
+	#mySelect{
+		margin-left: 33%;
+		width: 30%;
+		background-color: rgba(255, 255, 255, 0.24);
+		color: white;
+		margin-top: 4%;
+		font-family: 'Hammersmith One', sans-serif;
+	}
+	#Bigcontainer{
+		background-color: rgba(174, 173, 173, 0.23);
+		border: 0.5;
+		border-radius: 26px;
+		margin-top: 10%;
+		position: relative;
+		margin-left: 15px;
+		margin-right: 15px;
+		box-shadow: 10px 10px 5px rgba(40, 76, 72, 0.31);
+			
+	}
+	.album{
+		margin-left: 20%;
+		margin-right: 20%;
+		border: 4%;
+		margin-top: 6%;
+		
+	}
+	
+	/*Afegint la classe blur a una imatge la podrem desenfocar*/
+	img.blur{
+		-webkit-filter: blur(2px); 
+		-moz-filter: blur(2px); 
+		-o-filter: blur(2px); 
+		-ms-filter: blur(2px); 
+		filter: blur(2px);
+	}
+	img{
+		float: center;
+		border-radius: 100%;
+		z-index: 0;
+		width: 100%;
+		position: relative;	
+	}
+	#Menu{
+		color: white;
+		margin:7%;
+		margin-left: 10%;
+		margin-top: 5%;
+		float: left;
+		cursor: pointer;
+	}
+	#playbutton{
+		color: rgba(255, 255, 255, 1);
+		font-size: 7.5em;
+		z-index: 1;
+		left: 38%;
+		margin-top: 25%;
+		position: absolute;
+		cursor: pointer;
+	}
+	.Buscador{
+		background-color: rgba(255, 255, 255, 0);
+		margin: 5%;
+	}
+	.item{
+		margin: auto;
+		width: 60%;
+		margin-bottom: 3%;
+		padding-top: 4%;
+		font-family: 'Hammersmith One', sans-serif;
+	}
+
+	#Bigcontainer h3{
+		margin: auto;
+		padding-top: 8%;
+		font-size: 23px;
+		color: white;
+		width: 90%;
+		display: block;
+		margin-left: 20%;
+	}
+	p{
+		width: 100%;
+		margin:auto;
+		color: white;
+		font-family: 'Hammersmith One', sans-serif;
+
+	}
+
+
+	.info{
+		margin:auto;
+		font-family: 'Hammersmith One', sans-serif;
+	}
+	p.nomartista{
+		color: white;
+		font-size: 18px;
+		margin: auto;
+		margin-left: 30%;
+		margin-top: 10%;
+		
+
+	}
+	p.nomalbum{
+		color: white;
+		font-size: 18px;
+		margin: auto;
+		margin-left: 30%;
+		
+	}
+	/*-----------------------------BOOTSRAP REDESIGN-------------------------------*/
+	/* Boto amb la lupa del buscador*/
+	.btn-default{
+		background-color: rgba(255, 255, 255, 0.19);
+		border-radius: 14px;
+		color: white;
+	}
+	/* Espai de text del buscador*/
+	.form-control{
+		background-color: rgba(255, 255, 255, 0.19);
+		border-radius: 14px;
+		color: white;
+	}
+	.input-group .form-control{
+		
+	}
+	.jumbotron{
+	padding: 1px 15px;
+	margin-bottom: 30px;
+	color: inherit;
+	background-color: #DDD5D5;
+	}
+
+/*END OF QUERY*/
+}
+/*
+/* Smartphones (landscape) ----------- */
+@media only screen and (min-width : 321px) {
+/* Styles */
+
+	
+}
+
+/* Smartphones (portrait) ----------- */
+@media only screen and (max-width : 320px) {
+/* Styles */
+}
+/* iPads (portrait and landscape) ----------- */
+@media only screen and (min-width : 768px) and (max-width : 1024px) {
+
+/* Styles */
+}
+
+/* iPads (landscape) ----------- */
+@media only screen and (min-width : 768px) and (max-width : 1024px) and (orientation : landscape) {
+/* Styles */
+
+}
+
+/* iPads (portrait) ----------- */
+@media only screen and (min-width : 768px) and (max-width : 1024px) and (orientation : portrait) {
+/* Styles */
+
+
+}
+
+/* Desktops and laptops ----------- */
+@media only screen and (min-width : 1220px) {
+/* Styles */
+	html{
+		height: 100%;
+    	margin: 0;
+    	padding: 0;
+	}
+	body{
+		background-image: url("./1280x800.png");
+		background-size: 100%;
+		background-repeat: repeat-y;
+		height: 100%;
+    	margin: 0;
+    	padding: 0;
+     }
+	#header{
+		background-color:  rgba(2, 1, 1, 1);
+		margin-bottom: 40px;
+	}
+	.title{
+		margin:auto;
+		width: 100%;
+	}
+	#header p{
+		color: rgb(4, 136, 160);
+		font-family: 'Hammersmith One', sans-serif;
+		padding-left: 36%;
+		font-size: 365%;
+	}
+
+	/*sobreescrivim el "id" myselect (que per defecte aplica el user agent stylesheet)per adapar-lo al nostre estil*/
+	#mySelect{
+		margin-left: 33%;
+		width: 30%;
+		background-color: rgba(255, 255, 255, 0.24);
+		color: white;
+		margin-top: 4%;
+		font-family: 'Hammersmith One', sans-serif;
+	}
+	.Buscador{
+		background-color: rgba(255, 255, 255, 0);
+		width: 30%;
+		margin: auto;
+		margin-bottom: 5%;
+	}
+	img{
+		float: center;
+		border-radius: 100%;
+		z-index: 0;
+		width: 100%;
+		position: relative;	
+		cursor: pointer;
+
+	}	
+	
+	#dropdownbutton{
+		margin-top: 5%;
+	}
+	#Menu{
+		
+		margin-left: -100%;
+		margin-top: 5%;
+		float: left;
+		cursor: pointer;
+	}
+	.item{
+		float: left;
+		width: 25%;
+		margin-bottom: 3%;
+		padding: 1%;
+		padding-top: 4%;
+		font-family: 'Hammersmith One', sans-serif;
+		
+	}
+	#Bigcontainer{
+		background-color: rgba(174, 173, 173, 0.23);
+		border: 0.5;
+		border-radius: 26px;
+		position: absolute;
+		margin-left: 8%;
+		margin-right: 8%;
+		box-shadow: 10px 10px 5px rgba(40, 76, 72, 0.31);
+		width: 85%;	
+	}
+	#Bigcontainer h3{
+		padding-top: 3%;
+		margin:auto;
+		font-size: 35px;
+		color: white;
+		width: 35%;
+		display: block;
+	}
+	p{
+		width: 100%;
+		margin:auto;
+		color: white;
+
+	}
+	p.nomartista{
+		color: white;
+		font-size: 18px;
+		margin: auto;
+		margin-left: 20%;
+		margin-top: 10%;
+
+	}
+	p.nomalbum{
+		color: white;
+		font-size: 18px;
+		margin: auto;
+		margin-left: 20%;
+	}
+	.itembox{
+		width: 90%;
+		margin: auto;
+		clear: both;
+		
+	}
+	#footer{
+		color:white;
+	width: 100%;
+		height: 100px;
+position: absolute;
+bottom: 0;
+left: 0;
+
+	}
+	#content{
+		padding-bottom: 100px;
+		position: absolute;
+	}
+	
+	/*-----------------------------BOOTSRAP REDESIGN-------------------------------*/
+	/* Boto amb la lupa del buscador*/
+	.btn-default{
+		background-color: rgba(255, 255, 255, 0.19);
+		border-radius: 14px;
+		color: white;
+	}
+	/* Espai de text del buscador*/
+	.form-control{
+		background-color: rgba(255, 255, 255, 0.19);
+		border-radius: 14px;
+		color: white;
+	}
+	.input-group .form-control{
+		
+	}
+	.jumbotron{
+	padding: 1px 15px;
+	margin-bottom: 30px;
+	color: inherit;
+	background-color: #DDD5D5;
+	}
+	
+
+}
+
+/* Large screens ----------- */
+@media only screen and (min-width : 1282px) {
+
+
+
+}
+
+/* iPhone 4 ----------- */
+@media only screen and (-webkit-min-pixel-ratio : 1.5),only screen and (min-pixel-ratio : 1.5) {
+/* Styles */
+}
+
