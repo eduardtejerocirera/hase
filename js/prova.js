@@ -738,7 +738,7 @@ var DOMManager = {
   },
 
   albumListener: function(){
-    var i  = event.path[1].id;
+    var i  = event.srcElement.parentElement.id;
     i = i.substring(4);
     if (i.length == 1){
       console.log(i);
