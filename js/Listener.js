@@ -50,8 +50,11 @@ var Listener = {
     var i  = this.getIdFromEvent(event.srcElement.parentElement.id);
     if (i != -1){
       i = i + DOMManager.page*INCREMENT;
+      console.log(DOMManager.items);
+      console.log(i);
       id = DOMManager.items[i].spotify_artist_id;
       artist = DOMManager.items[i].name;
+      console.log("ID en listener:" + id);
       var items = [];
       items = APImanager.getAlbumsFromArtist(id, artist);
       DOMManager.items = items;

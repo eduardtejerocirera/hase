@@ -107,6 +107,7 @@ var APImanager = {
     url = "https://api.spotify.com/v1/artists/" + id + "/albums";
     method = "GET";
     j = this.request(method, url);
+    console.log("ID en API manager: " + id);
     albums = [];
     for (i = 0; i < j.items.length; i++){
       a = item();
@@ -143,9 +144,9 @@ var APImanager = {
   },
 
   getRelatedArtists: function(id){
-    method = "GET";
+    console.log("artist_id: "+id);
     url = "https://api.spotify.com/v1/artists/"+id+"/related-artists";
-    j = this.request(method,url);
+    j = this.request("GET",url);
     items = [];
 
     for (i = 0; i < j.artists.length; i++){
@@ -153,7 +154,7 @@ var APImanager = {
        a.name = j.artists[i].name;
        a.img_url = j.artists[i].images[0].url;
        a.type = "artist";
-       a.spotify_id = j.artists[i].id;
+       a.spotify_artist_id = j.artists[i].id;
        items[i] = a;
     }
     return items;

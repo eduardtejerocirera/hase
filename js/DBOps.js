@@ -36,7 +36,9 @@ var DBOps = {
     items = null;
     if(this.existsInDB(query)){
       j = this.request(method,query);
+      console.log(j);
       artist_id = j.response[0].spotify_artist_id;
+      console.log("artist_id: "+artist_id);
       items = APImanager.getRelatedArtists(artist_id);
     }
     return items;
