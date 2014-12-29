@@ -84,14 +84,7 @@
 		margin-bottom: 4%;
 	}
 	#Bigcontainer2{
-		background-color: rgba(174, 173, 173, 0.23);
-		border: 0.5;
-		border-radius: 26px;
-		position: absolute;
-		margin-left: 8%;
-		margin-right: 8%;
-		box-shadow: 10px 10px 5px rgba(40, 76, 72, 0.31);
-		width: 50%;	
+		
 
 	}
 	#Bigcontainer h3{
@@ -151,16 +144,18 @@
 		font-family: 'Hammersmith One', sans-serif;
 	}
 	#nextR{
-		margin-left: 93.5%;
-		font-size: 600%;
+
+		margin-left: 89%;
+		font-size: 800%;
 		float: right;
 		position: fixed;
 		cursor: pointer;
+
 	}
 	#nextL{
-		margin-left: 1.4%;
+		margin-left: 4.4%;
 		width: 50%;
-		font-size: 600%;
+		font-size: 800%;
 		float: left;
 		position: fixed;
 		cursor: pointer;
@@ -201,16 +196,12 @@
 	color: inherit;
 	background-color: #DDD5D5;
 	}
-	.table {
-		margin: auto;
-		width: 93%;
-		max-width: 102%;
-		margin-bottom: 20px;
-		border: solid;
-		border-color: rgba(255, 255, 255, 0.48);
-		border-radius: 14px;
-		/* margin-bottom: 14px; */
-	}
 	
+
+
+
+
+
+
 
 }
