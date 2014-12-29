@@ -171,7 +171,7 @@
 		display: inline-block;
 		margin: auto;
 	}
-	#play{
+	.play{
 		cursor: pointer;
 	}
 	
@@ -201,12 +201,16 @@
 	color: inherit;
 	background-color: #DDD5D5;
 	}
+	.table {
+		margin: auto;
+		width: 93%;
+		max-width: 102%;
+		margin-bottom: 20px;
+		border: solid;
+		border-color: rgba(255, 255, 255, 0.48);
+		border-radius: 14px;
+		/* margin-bottom: 14px; */
+	}
 	
-
-
-
-
-
-
 
 }
