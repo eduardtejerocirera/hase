@@ -46,7 +46,8 @@ var APImanager = {
     console.log(j);
 
     for (i = 0; i < it.items.length; i++){
-        t = item();
+        //t = item();
+        t=[];
         t.type = type;
         t.name = it.items[i].name;
         
@@ -110,7 +111,8 @@ var APImanager = {
     console.log("ID en API manager: " + id);
     albums = [];
     for (i = 0; i < j.items.length; i++){
-      a = item();
+      //a = item();
+      a=[];
       a.artist = artName;
       a.spotify_album_id = j.items[i].id;
       a.name = j.items[i].name;
@@ -128,7 +130,8 @@ var APImanager = {
     j = this.request(method,url);
     tracks = [];
     for (i = 0; i < j.items.length; i++){
-        t = item();
+        //t = item();
+        t=[];
         t.name = j.items[i].name;
         t.spotify_track_id = j.items[i].id;
         t.spotify_album_id = album.spotify_album_id;
@@ -150,7 +153,8 @@ var APImanager = {
     items = [];
 
     for (i = 0; i < j.artists.length; i++){
-       a = item();
+      a = [];
+       //var a = item();
        a.name = j.artists[i].name;
        a.img_url = j.artists[i].images[0].url;
        a.type = "artist";
@@ -168,7 +172,8 @@ var APImanager = {
     for (i = 0; i < 100; i++){
       length = jBig.albums[i].href.length;
       id = jBig.albums[i].href.substring(14,length);
-      a = item();
+      //a = item();
+      a=[];
       a = this.getAlbumFromId(id);
       albums[i] = a;
     }
@@ -180,7 +185,8 @@ var APImanager = {
     method = "GET";
     j = this.request(method, url);
 
-    a = item();
+    //a = item();
+    a=[];
     a.name = j.name;
     a.spotify_album_id = j.id;
     a.artist = j.artists[0].name;
