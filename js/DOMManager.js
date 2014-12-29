@@ -19,7 +19,7 @@ var DOMManager = {
       mP = APImanager.getMostPopular();
       DOMManager.items = mP;
       DOMManager.type = "album";
-      DOMManager.printItems("Most PopulaAlbums");
+      DOMManager.printItems("Most Popular Albums");
     }
 
     else{

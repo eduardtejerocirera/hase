@@ -19,10 +19,9 @@ var Listener = {
   searchListener: function(){
     DOMManager.resetPages();
     type = DOMManager.getOptionComboBox();
-    console.log("presetType "+type);
     DOMManager.type = this.setType(type);
-    console.log("postsetType "+DOMManager.type);
     txt = document.getElementById('textbox').value;
+    console.log(txt);
     j = APImanager.s_search(txt,DOMManager.type,0,50);
     var items = [];
     

@@ -253,15 +253,15 @@ function searchList (){
     //APImanager.getMostPopular();
     
     //DBOps.createPlaylist("Hola");
-    //DBOps.addTrackToPlaylist(sL.items[0],"PENE");
+    //DBOps.addTrackToPlaylist(sL.items[0],"HOLA");
     
-
+    //DBOps.emptyDB();
     DBOps.createPlaylist("default");
     DBOps.createPlaylist("favoritos");
     Listener.init();
 
     DOMManager.mainPage();
-    //DBOps.emptyDB();
+    
 
   }
  }

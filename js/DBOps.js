@@ -34,7 +34,7 @@ var DBOps = {
     query = "SELECT SUM(reproduced), spotify_artist_id FROM track GROUP BY spotify_artist_id ORDER BY SUM(reproduced) DESC";
     
     items = null;
-    if(this.existsInDB){
+    if(this.existsInDB(query)){
       j = this.request(method,query);
       artist_id = j.response[0].spotify_artist_id;
       items = APImanager.getRelatedArtists(artist_id);
@@ -72,6 +72,8 @@ var DBOps = {
   existsInDB: function(query){
     method = "PUT";
     j = this.request(method,query);
+    console.log(j);
+    console.log(query);
     if (j.debug.affected_rows === 0){
       return false;
     }
