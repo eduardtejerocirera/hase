@@ -256,14 +256,11 @@ function searchList (){
     //DBOps.addTrackToPlaylist(sL.items[0],"PENE");
     
 
-
+    DBOps.createPlaylist("default");
+    DBOps.createPlaylist("favoritos");
     Listener.init();
-    mP = [];
-    mP = APImanager.getMostPopular();
-    DOMManager.items = mP;
-    DOMManager.type = "album";
-    DOMManager.printItems("Most Popular Albums");
 
+    DOMManager.mainPage();
     //DBOps.emptyDB();
 
   }

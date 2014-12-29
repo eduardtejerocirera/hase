@@ -1,30 +1,31 @@
 var Listener = {
   init: function(){
     this.addSearchListener();
+    this.addMainPageListener();
+  },
+
+  addMainPageListener: function(){
+    var section = document.getElementById("sound");
+    section.addEventListener("click", function(){
+      Listener.mainPageListener();
+    });
+  },
+
+  mainPageListener: function(){
+    DOMManager.resetPages();
+    DOMManager.mainPage();
   },
 
   searchListener: function(){
     DOMManager.resetPages();
-
     type = DOMManager.getOptionComboBox();
+    console.log("presetType "+type);
     DOMManager.type = this.setType(type);
-
+    console.log("postsetType "+DOMManager.type);
     txt = document.getElementById('textbox').value;
-    j = APImanager.s_search(txt,DOMManager.type,0,INCREMENT);
+    j = APImanager.s_search(txt,DOMManager.type,0,50);
     var items = [];
     
-    /*if (DOMManager.type === "album"){
-      items = APImanager.s_getData(j,DOMManager.type); 
-    }
-    if(DOMManager.type === "artist"){
-      items = APImanager.s_getData(j, DOMManager.type);
-    }
-    if(DOMManager.type === "track"){
-      items = APImanager.s_getData(j, DOMManager.type);
-    }*/
-
-    //console.log(items);
-    //DOMManager.items = items;
     DOMManager.items = APImanager.s_getData(j, DOMManager.type);
     DOMManager.printItems("Searching "+ DOMManager.type + "s as " + txt);
     
@@ -38,7 +39,6 @@ var Listener = {
   },
 
   addArtistListener: function(){
-    //console.log(DOMManager.nItem);
     for (i = 0; i < DOMManager.nItem; i++){
       var artist = document.getElementById("item"+i);
       artist.addEventListener("click",function(){
@@ -55,18 +55,15 @@ var Listener = {
       artist = DOMManager.items[i].name;
       var items = [];
       items = APImanager.getAlbumsFromArtist(id, artist);
-      //console.log(items);
       DOMManager.items = items;
       DOMManager.type = "album";
       DOMManager.resetPages();
-      DOMManager.printItems("Albums from " + artist.artist);
+      DOMManager.printItems("Albums from " + artist);
     }
   },
 
   addAlbumListener: function(){
-    console.log(DOMManager.nItem);
     for (i = 0; i < DOMManager.nItem; i++){
-      //console.log(i);
       var album = document.getElementById("item"+i);
       album.addEventListener("click",function(){
         Listener.albumListener();
@@ -81,7 +78,6 @@ var Listener = {
       album = DOMManager.items[i];
       var items = [];
       items = APImanager.getTracksFromAlbum(album);
-      //console.log(items);
       DOMManager.items = items;
       DOMManager.type = "track";
       DOMManager.resetPages();
@@ -93,7 +89,6 @@ var Listener = {
   getIdFromEvent: function(id){
     var i  = id;
     i = i.substring(4);
-    //console.log(i);
     if (i.length == 1 || i.length == 2){
       i = parseInt(i);
     }else{
@@ -115,7 +110,6 @@ var Listener = {
   },
 
   addPreviousButtonListener: function(){
-    //console.log("adios");
     button = document.getElementById("nextL");
     button.addEventListener("click", function(){
       Listener.previousPage();
@@ -123,7 +117,6 @@ var Listener = {
   },
 
   addNextButtonListener: function(){
-    //console.log("hola");
     button = document.getElementById("nextR");
     button.addEventListener("click", function(){
       Listener.nextPage();
@@ -171,10 +164,7 @@ var Listener = {
   },
 
   addPlaySongListener: function(){
-    console.log(DOMManager.nItem);
-    console.log("adding!");
     for (i = 0; i < DOMManager.nItem; i++){
-      //console.log(i);
       var play = document.getElementById("play"+i);
       play.addEventListener("click",function(){
         Listener.PlaySongListener();
@@ -182,19 +172,20 @@ var Listener = {
     }
   },
 
-  PlaySongListener:function(){
-    
+  PlaySongListener:function    (){
+
     var i = this.getIdFromEvent(event.srcElement.id);
-    //console.log(i);
     if (i != -1){
       i = i + DOMManager.page*INCREMENT;
+      item = DOMManager.items[i];
       artist = DOMManager.items[i].artist;
       track = DOMManager.items[i].name;
-      //console.log(track+" "+artist);
       video = APImanager.y_getVideo(artist,track);
       console.log(video);
       DOMManager.destroyVideos();
       DOMManager.embedVideo(video,i);
+      DBOps.addTrackToPlaylist(item,"default");
+      //DBOps.updateReproduced(item);
       //DOMManager.resetPages();
       //DOMManager.printItems("Albums from " + artist.artist);
     }

@@ -7,7 +7,6 @@ var APImanager = {
       //console.log(xhr.status);
       var json_response = xhr.responseText;
       json = JSON.parse(json_response);
-      //console.log(json);
       return json
   },
 
@@ -24,7 +23,7 @@ var APImanager = {
   },
 
 
-  it: function(type){
+  it: function(type,j){
     var it = null;
 
     if (type === 'track'){
@@ -36,18 +35,16 @@ var APImanager = {
     if(type === 'album'){
       it = j.albums;
     }
-
-    //console.log(it);
     
     return it;
   },
 
   s_getData: function(j, type){
 
-    it = this.it(type);
+    it = this.it(type,j);
     items = [];
+    console.log(j);
 
-    //console.log(j);
     for (i = 0; i < it.items.length; i++){
         t = item();
         t.type = type;
@@ -102,8 +99,6 @@ var APImanager = {
     url = "https://api.spotify.com/v1/albums/" + id;
     method = "GET";
     j = this.request(method, url);
-    //console.log('hola');
-    //console.log(j);
     item.artist = j.artists[0].name;
     item.spotify_artist_id = j.artists[0].id;
   },
@@ -112,7 +107,6 @@ var APImanager = {
     url = "https://api.spotify.com/v1/artists/" + id + "/albums";
     method = "GET";
     j = this.request(method, url);
-    //console.log(j);
     albums = [];
     for (i = 0; i < j.items.length; i++){
       a = item();
@@ -124,7 +118,6 @@ var APImanager = {
       a.spotify_artist_id = id;
       albums[i] = a;
     }
-    //console.log(albums);
     return albums;
   },
 
@@ -132,7 +125,6 @@ var APImanager = {
     url = "https://api.spotify.com/v1/albums/" + album.spotify_album_id + "/tracks";
     method = "GET";
     j = this.request(method,url);
-    //console.log(j);
     tracks = [];
     for (i = 0; i < j.items.length; i++){
         t = item();
@@ -146,7 +138,6 @@ var APImanager = {
         t.type = "track";
         tracks[i] = t;
     }
-    //console.log(tracks);
     return tracks;
 
   },
@@ -155,7 +146,6 @@ var APImanager = {
     method = "GET";
     url = "https://api.spotify.com/v1/artists/"+id+"/related-artists";
     j = this.request(method,url);
-    //console.log(j);
     items = [];
 
     for (i = 0; i < j.artists.length; i++){
@@ -173,7 +163,6 @@ var APImanager = {
     url = "http://ws.spotify.com/search/1/album.json?q=year:0-3000";
     method = "GET";
     jBig = this.request(method, url);
-    console.log(jBig);
     albums = [];
     for (i = 0; i < 100; i++){
       length = jBig.albums[i].href.length;
@@ -182,7 +171,6 @@ var APImanager = {
       a = this.getAlbumFromId(id);
       albums[i] = a;
     }
-    //console.log(albums);
     return albums;
   },
 
@@ -190,7 +178,6 @@ var APImanager = {
     url = "https://api.spotify.com/v1/albums/"+id;
     method = "GET";
     j = this.request(method, url);
-    //console.log(j);
 
     a = item();
     a.name = j.name;
@@ -199,7 +186,6 @@ var APImanager = {
     a.spotify_artist_id = j.artists[0].id;
     a.img_url = j.images[0].url;
     a.type = "album";
-    //console.log("return");
     return a;
   },
 
@@ -207,7 +193,6 @@ var APImanager = {
       var xhr = new XMLHttpRequest();
       xhr.open(method,url,false);
       xhr.send();
-      //console.log(xhr.status);
       var xml_response = xhr.responseText;
       
 
@@ -215,9 +200,6 @@ var APImanager = {
       var jsonObj = x2js.xml_str2json(xml_response);
 
       return jsonObj;
-     
-      //json = JSON.parse(json_response);
-      //return json
   },
 
   noSpaces: function(str){
@@ -227,14 +209,11 @@ var APImanager = {
 
   y_getVideo: function(artist, name){
       artist = this.noSpaces(artist);
-      //console.log(artist);
       name = this.noSpaces(name);
-      //console.log(name);
 
       method = "GET";
       url = "http://gdata.youtube.com/feeds/api/videos?q="+artist+ "+" +name+ "+live&max-results=10&v=2";
       j = this.y_request(method,url);
-      //console.log(j);
       video = j.feed.entry[0].content._src;
       return video;
   }

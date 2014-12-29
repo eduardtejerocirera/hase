@@ -11,7 +11,24 @@ var DOMManager = {
   items: [],
   page: 0,
   
+  mainPage: function(){
+    mP = [];
+    mP = DBOps.getRelatedArtists();
+    
+    if (mP == null){
+      mP = APImanager.getMostPopular();
+      DOMManager.items = mP;
+      DOMManager.type = "album";
+      DOMManager.printItems("Most PopulaAlbums");
+    }
 
+    else{
+      DOMManager.items = mP;
+      DOMManager.type = "artist";
+      DOMManager.printItems("Related Artists");
+    }
+    
+  },
   createDiv:function(id,className){
     div = document.createElement('div');
     div.setAttribute("id",id);
@@ -33,7 +50,6 @@ var DOMManager = {
   },
   
   createItemDiv: function(itembox){
-    //console.log(albumbox);
     div = this.createDiv("item"+this.nItem, "item");
     document.getElementById("itembox" + itembox).appendChild(div);
   },
@@ -47,7 +63,6 @@ var DOMManager = {
     console.log("fVal ="+ this.fVal);
     console.log("length de items = "+ this.items.length);
     for (i = this.iVal; i < this.items.length && i < this.fVal; i++){
-      console.log(i);
       if (i % 4 == 0){
         this.createItemBoxDiv();
         this.nItemBox++;
@@ -59,7 +74,6 @@ var DOMManager = {
         this.renderArtist(this.items[i],i - this.page*INCREMENT);
       }
       if (this.type === "track"){
-        console.log("Print Track");
         this.printTracks(this.items[i], i - this.page*INCREMENT);
       }
     }
@@ -83,7 +97,6 @@ var DOMManager = {
   },
 
   renderAlbum: function(element, album){
-    //console.log(element);
     this.createItemDiv(this.nItemBox - 1);
     img = this.createImage(element.img_url);
     document.getElementById("item" + album).appendChild(img);
@@ -97,7 +110,6 @@ var DOMManager = {
   },
 
   renderArtist: function(element, artist){
-    //console.log(this.items.length);
     this.createItemDiv(this.nItemBox - 1);
     img = this.createImage(element.img_url);
     document.getElementById("item" + artist).appendChild(img);
@@ -118,8 +130,6 @@ var DOMManager = {
   setTitle: function(text){
     var title = document.createElement('h3');
     title.setAttribute("id","title");
-    //console.log(text);
-    //console.log(title);
     title.innerHTML = text;
     document.getElementById('Bigcontainer').appendChild(title);
   },
@@ -157,12 +167,10 @@ var DOMManager = {
     div = this.createDiv("arrows","arrows");
     document.getElementById('Content').appendChild(div);
     if (this.page != 0){
-      console.log("Prev");
       this.createPreviousPageButton("arrows");
       Listener.addPreviousButtonListener();
     }
     if(this.items.length > this.fVal){
-      console.log("Next");
       this.createNextPageButton("arrows");
       Listener.addNextButtonListener();
     }
@@ -254,7 +262,6 @@ var DOMManager = {
   embedVideo: function(url,i){
       var video = document.createElement("embed");
       video.setAttribute("src", url+"?rel=0&autoplay=1");
-      //console.log(this.links[parseInt(i)]+"?rel=0&autoplay=1");
       video.setAttribute("id", "song"+i);
       video.setAttribute("class","song");
 

@@ -9,7 +9,6 @@ var DBOps = {
       //console.log(xhr.status);
       var json_response = xhr.responseText;
       json = JSON.parse(json_response);
-      //console.log(json);
       return json;
   },
   updateReproduced: function(item){
@@ -20,7 +19,6 @@ var DBOps = {
           query = "INSERT INTO track (spotify_track_id, album, artist, name, reproduced, spotify_artist_id, spotify_album_id) VALUES ('"
             + item.spotify_track_id + "','" + item.album + "','" + item.artist + "','" + item.name + "',1,'" + item.spotify_artist_id + "','" +
             item.spotify_album_id +"')";
-          console.log(query);
            j = this.request(method, query);
         }
         else{
@@ -33,12 +31,14 @@ var DBOps = {
 
   getRelatedArtists: function(){
     method = "PUT";
-    query = "SELECT MAX(reproduced), spotify_artist_id FROM track";
-    j = this.request(method,query);
-    artist_id = j.response[0].spotify_artist_id;
-    items = [];
-    items = APImanager.getRelatedArtists(artist_id);
-    //console.log(items);
+    query = "SELECT SUM(reproduced), spotify_artist_id FROM track GROUP BY spotify_artist_id ORDER BY SUM(reproduced) DESC";
+    
+    items = null;
+    if(this.existsInDB){
+      j = this.request(method,query);
+      artist_id = j.response[0].spotify_artist_id;
+      items = APImanager.getRelatedArtists(artist_id);
+    }
     return items;
   },
 
@@ -48,23 +48,24 @@ var DBOps = {
     if (!this.existsInDB(query)){
       query = "INSERT INTO playlist (name) VALUES ('" + name +"')";
       j = this.request(method,query); 
-      //console.log(j);
     }
     else{
-      //console.log("Already exists!!");
+      console.log("Already exists!!");
     }
   },
 
   addTrackToPlaylist: function(item, playlist){
-    //console.log(item);
-    query = "SELECT track.track_id, playlist.playlist_id FROM track, playlist " + 
-    "WHERE track.spotify_track_id = '" + item.spotify_track_id + "' AND playlist.name = '" + playlist + "'";
+    query1 = "SELECT track.track_id FROM track WHERE track.spotify_track_id = '" + item.spotify_track_id + "'";
+    query2 = "SELECT playlist.playlist_id FROM playlist WHERE playlist.name = '" + playlist + "'";
     this.updateReproduced(item);
     this.createPlaylist(playlist);
-    j = this.request("PUT", query);
-    //console.log('hola');
-    //console.log(j);
-    //j.response
+    j1 = this.request("PUT", query1);
+    j2 = this.request("PUT", query2);
+    track_id = j1.response[0].track_id;
+    playlist_id = j2.response[0].playlist_id;
+
+    query3 = "INSERT INTO playlist_track (track_id, playlist_id) VALUES ('"+track_id+"','"+playlist_id+"')";
+    j3 = this.request("PUT",query3);
     
   },
 
@@ -86,8 +87,7 @@ var DBOps = {
   truncateTable: function(table){
     method = "PUT";
     query = "TRUNCATE TABLE hipermedia."+table;
-    j = this.request(method,query);
-    console.log(j);  
+    j = this.request(method,query);  
   }
 
 };
