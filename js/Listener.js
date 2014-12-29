@@ -136,7 +136,6 @@ var Listener = {
     var delay=300;//2 seconds
     setTimeout(function(){
         DOMManager.printItems("Most Popular Albums");
-        Animations.translate('Bigcontainer',4000,0);
         //Animations.slideToLeft('Bigcontainer',1000);
     //your code to be executed after 1 seconds
     },delay); 
