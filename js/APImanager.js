@@ -117,7 +117,12 @@ var APImanager = {
       a.spotify_album_id = j.items[i].id;
       a.name = j.items[i].name;
       a.type = "album";
-      a.img_url = j.items[i].images[0].url;
+      if(j.items[i].images.length != 0){
+        a.img_url = j.items[i].images[0].url;
+      }
+      else{
+        a.img_url = "./images/default.png";
+      }
       a.spotify_artist_id = id;
       albums[i] = a;
     }
@@ -139,6 +144,9 @@ var APImanager = {
         t.artist = j.items[i].artists[0].name;
         t.album = album.name;
         t.img_url = album.img_url;
+        if(t.img_url == ""){
+          t.img_url = "./images/default.png";
+        }
         t.type = "track";
         tracks[i] = t;
     }
@@ -156,7 +164,12 @@ var APImanager = {
       a = [];
        //var a = item();
        a.name = j.artists[i].name;
-       a.img_url = j.artists[i].images[0].url;
+       if(j.artists[i].images.length != 0){
+          a.img_url = j.artists[i].images[0].url;
+        }
+        else{
+          a.img_url = "./images/default.png";
+        }
        a.type = "artist";
        a.spotify_artist_id = j.artists[i].id;
        items[i] = a;
@@ -191,7 +204,12 @@ var APImanager = {
     a.spotify_album_id = j.id;
     a.artist = j.artists[0].name;
     a.spotify_artist_id = j.artists[0].id;
-    a.img_url = j.images[0].url;
+    if (j.artists[0].images != 0){
+      a.img_url = j.images[0].url;
+    }
+    else{
+      a.img_url = "./images/default.png";
+    }
     a.type = "album";
     return a;
   },

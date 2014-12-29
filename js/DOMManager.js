@@ -10,6 +10,7 @@ var DOMManager = {
   fVal: INCREMENT,
   items: [],
   page: 0,
+  playlist : [],
   
   mainPage: function(){
     mP = [];
@@ -193,7 +194,9 @@ var DOMManager = {
     cell3 = this.NewCell(element.artist);
     cellnum = this.NewCell(i+1 + this.iVal);
     cellplay = this.NewPlayCell(i);
-    row = this.NewRow(cell1, cell2, cell3, cellnum, cellplay);
+    cellList = this.NewCell(" ");
+    cellList.setAttribute("id","td-playlist"+i);
+    row = this.NewRow(cell1, cell2, cell3, cellnum, cellplay,cellList);
     document.getElementById("table-body").appendChild(row);
     this.nItem++;
   },
@@ -213,7 +216,8 @@ var DOMManager = {
     h2 = this.NewHeader("Album");
     h3 = this.NewHeader("Artist");
     hplay = this.NewHeader(" ");
-    row = this.NewRow(h1,h2,h3,hnum,hplay);
+    hlist = this.NewHeader(" ");
+    row = this.NewRow(h1,h2,h3,hnum,hplay,hlist);
     head.appendChild(row);
     parent.appendChild(head);
     return parent;
@@ -232,10 +236,11 @@ var DOMManager = {
     return column;
   },
 
-  NewRow: function(e1, e2, e3, num, play){
+  NewRow: function(e1, e2, e3, num, play, playlist){
     row = document.createElement("tr");
     row.appendChild(num);
     row.appendChild(play);
+    row.appendChild(playlist);
     row.appendChild(e1);
     row.appendChild(e2);
     row.appendChild(e3);
@@ -259,11 +264,38 @@ var DOMManager = {
     return cell;
   },
 
+  NewPlaylistCell: function(){
+    form = document.createElement("form");
+    select = document.createElement("select");
+    select.setAttribute("id","addButton");
+    for (i = 1; i < this.playlist.length; i++){
+      option = document.createElement("option");
+      option.innerHTML = this.playlist[i];
+      select.appendChild(option);
+    }
+    form.appendChild(select);
+    return form;
+  },
+
+  NewAddButton: function(){
+    button = document.createElement("button");
+      button.innerHTML = "Add to Playlist";
+      button.setAttribute("id","Add");
+    return button;  
+  },
+
+
   embedVideo: function(url,i){
       var video = document.createElement("embed");
       video.setAttribute("src", url+"?rel=0&autoplay=1");
       video.setAttribute("id", "song"+i);
       video.setAttribute("class","song");
+
+      var button = this.NewPlaylistCell();
+      document.getElementById("td-playlist"+i).appendChild(button);
+      var button2 = this.NewAddButton();
+      document.getElementById("td-playlist"+i).appendChild(button2);
+      Listener.addTrackToPlaylistListener();
 
       document.getElementById("td-play"+i).appendChild(video);
   },
@@ -273,8 +305,87 @@ var DOMManager = {
     for(i = 0; i < videos.length; i++){
       id = videos[i].getAttribute("id");
       document.getElementById(id).remove();
+      document.getElementById("Add").remove();
+      document.getElementById("addButton").remove();
       //cell = document.getElementById("td-play"+i);
     }
+  },
+
+  newPlaylistButton: function(name, i){
+    /*<div id = "playlistbuttons">  
+                     <div class="btn-group" id = "btn-group">
+                        <button type="button" class="btn btn-default">LIST 1</button>
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                          <span class="caret"></span>
+                          <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">DELETE LIST</a></li> 
+                        </ul>
+                    </div>
+                  </div>*/
+
+    div = this.createDiv("btn-group", "btn-group"+i);
+    
+    button1 = document.createElement("button");
+    button1.setAttribute("type","button");
+    button1.setAttribute("class", "btn btn-default");
+    button1.setAttribute("id", "list"+i);
+    button1.innerHTML = name;
+    
+    button2 = document.createElement("button");
+    button2.setAttribute("class", "btn btn-default dropdown-toggle");
+    button2.setAttribute("id","dele"+i);
+
+    i = document.createElement("i");
+    i.setAttribute("class", "fa fa-times");
+
+    button2.appendChild(i);
+    //button2.setAttribute("data-toggle", "dropdown");
+    //button2.setAttribute("aria-expanded","false");
+
+    /*span1 = document.createElement("span");
+    span1.setAttribute("class", "caret");*/
+
+    /*span2 = document.createElement("span");
+    span2.setAttribute("class", "sr-only");
+    span2.innerHTML = "Toggle Dropdown";*/
+
+    /*button2.appendChild(span1);
+    button2.appendChild(span2);*/
+
+    /*ul = document.createElement("ul");
+    ul.setAttribute("class","dropdown-menu");
+    ul.setAttribute("role", "menu");*/
+
+    /*li = document.createElement("li");
+    li.setAttribute("id","dele"+i)
+    li.innerHTML = "DELETE LIST";*/
+
+    //ul.appendChild(li);
+
+    div.appendChild(button1);
+    div.appendChild(button2);
+    //div.appendChild(ul);
+
+
+
+    /*button = document.createElement("button");
+    button.innerHTML = name;*/
+    document.getElementById("playlistbuttons").appendChild(div);
+  },
+
+  setPlaylistButtons: function(){
+    div = document.getElementById("playlistbuttons").remove();
+    div = this.createDiv("playlistbuttons", "playlistbuttons");
+    document.getElementById("playlistcell").appendChild(div)
+    p = DBOps.getPlaylists();
+    this.playlist = p;
+    for(i = 1; i < p.length; i++){
+      this.newPlaylistButton(p[i], i);
+    }
   }
+
+
 
  }; 

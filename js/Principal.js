@@ -255,13 +255,16 @@ function searchList (){
     //DBOps.createPlaylist("Hola");
     //DBOps.addTrackToPlaylist(sL.items[0],"HOLA");
     
-    DBOps.emptyDB();
-    DBOps.createPlaylist("default");
-    DBOps.createPlaylist("favoritos");
+    //DBOps.emptyDB();
+    DBOps.createPlaylist("default",1);
+    DBOps.createPlaylist("favoritos",2);
+    DOMManager.playlist = DBOps.getPlaylists();
     Listener.init();
 
     DOMManager.mainPage();
-    
+    DOMManager.setPlaylistButtons();
+    Listener.addOpenPlaylistListener();
+    Listener.addDeletePlaylistListener();
 
   }
  }

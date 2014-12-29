@@ -19,25 +19,63 @@
 			</div>
 			<div id="Content">	
 				<div class="Buscador">
-				    <div class="input-group">
-				    	<span class="input-group-btn" id = "searchButton">
-				      		<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-				      	</span>
-				      	<input type="text" class="form-control" id= "textbox">
-				    </div><!-- /input-group -->
-
-				     	<!-- Single button PER A SELECCIONAR ALBUMS ARTISTS SONGS-->
-					<form id = "myform">
-						<select id="mySelect">
-							<option>Artists</option>
-							<option>Albums</option>
-							<option>Tracks</option>
-
-							
-						</select>
-					</form>
-			 	</div><!-- /.col-lg-6 -->
+  					<table border="1" style="width: 100%;">
+  						<tbody style="">
+	  						<tr>
+	    						<td>
+	    							<div class="input-group">
+					    				<span class="input-group-btn" id="searchButton">
+					      					<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+					      				</span>
+					      				<input type="text" class="form-control" id="textbox">
+					    			</div>
+								</td>
+	    					</tr>
+						    <tr>
+							    <td>	<!-- Single button PER A SELECCIONAR ALBUMS ARTISTS SONGS-->
+									<form id="myform" style="/* margin: auto; */">
+										<select id="mySelect">
+											<option>Artists</option>
+											<option>Albums</option>
+											<option>Track</option>
+										</select>
+									</form>
+								</td> 
+						  	</tr>
+						  	<tr>
+						    	<td>
+						    		<div class="input-group">
+										<span class="input-group-btn" id="searchButton">
+											<button class="btn btn-default" type="button" id = "newplaylist">
+												<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+											</button>
+										</span>
+										<input type="text" class="form-control" placeholder="NEW LIST" id="textboxN">
+									</div>
+								</td>
+							</tr>
+  							<tr>
+    							<td id = "playlistcell">
+    								<div id = "playlistbuttons">	
+										 <div class="btn-group" id = "btn-group">
+											  <button type="button" class="btn btn-default">LIST 1</button>
+											  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+											    <span class="caret"></span>
+											    <span class="sr-only">Toggle Dropdown</span>
+											  </button>
+											  <ul class="dropdown-menu" role="menu">
+											    <li><a href="#">DELETE LIST</a></li> 
+											  </ul>
+										</div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				 </div><!-- /.col-lg-6 -->
 				<!-- Dins el Big Container hi col·locarem tots els albums-->
+				
+
 				<div id="Bigcontainer" class="Bigcontainer">
 
 					

@@ -2,6 +2,7 @@ var Listener = {
   init: function(){
     this.addSearchListener();
     this.addMainPageListener();
+    this.addNewPlaylistListener();
   },
 
   addMainPageListener: function(){
@@ -190,7 +191,84 @@ var Listener = {
       //DOMManager.resetPages();
       //DOMManager.printItems("Albums from " + artist.artist);
     }
-  }
+  },
 
+  addNewPlaylistListener: function(){
+    button = document.getElementById("newplaylist");
+    button.addEventListener("click", function(){
+      Listener.newPlaylistListtener();
+    });
+  },
+
+  newPlaylistListtener: function(){
+    txt = document.getElementById("textboxN").value;
+    console.log("DOMManager.playlist: "+DOMManager.playlist);
+    DBOps.createPlaylist(txt,DOMManager.playlist.length+1);
+    DOMManager.setPlaylistButtons();
+    Listener.addOpenPlaylistListener();
+    Listener.addDeletePlaylistListener();  
+  },
+
+  addTrackToPlaylistListener: function(){
+    button= document.getElementById("Add");
+    button.addEventListener("click",function(){
+      Listener.trackToPlaylistListner();
+    });
+  },
+  
+  trackToPlaylistListner: function(){
+    console.log(event);
+    var i = event.srcElement.parentElement.id;
+    i = i.substring(11);
+    i = parseInt(i);
+    item = DOMManager.items[i];
+
+    var obj = document.getElementById("addButton");
+    var playlist = obj.options[obj.selectedIndex].text;
+    DBOps.addTrackToPlaylist(item,playlist);
+    console.log(playlist);
+  },
+
+  addOpenPlaylistListener: function(){
+
+    for(i = 1; i < DOMManager.playlist.length; i++){
+      console.log(i);
+      button = document.getElementById("list"+i);
+      button.addEventListener("click", function(){
+        Listener.openPlaylistListener();
+      });
+    }
+  },
+
+  openPlaylistListener: function(){
+    var i = event.srcElement.id;
+    i = this.getIdFromEvent(i);
+    name = DOMManager.playlist[i];
+    songs = DBOps.showPlaylistTracks(name);
+    console.log(songs);
+    DOMManager.items = songs;
+    DOMManager.type = "track";
+    DOMManager.printItems("Playlist: "+ name);
+  },
+
+  addDeletePlaylistListener: function(){
+    for(i = 1; i < DOMManager.playlist.length; i++){
+      button = document.getElementById("dele"+i);
+      button.addEventListener("click", function(){
+        Listener.deletePlaylistListener();
+      });
+    }
+  },
+
+  deletePlaylistListener: function(){
+    var i = event.srcElement.id;
+    i = this.getIdFromEvent(i);
+    console.log("DP:"+DOMManager.playlist);
+    console.log("i:"+i);
+    name = DOMManager.playlist[i];
+    DBOps.deletePlaylist(name);
+    DOMManager.setPlaylistButtons();
+
+  }
   
  };

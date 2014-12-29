@@ -44,12 +44,23 @@ var DBOps = {
     return items;
   },
 
-  createPlaylist: function(name){
+  createPlaylist: function(name, id){
+    
+    console.log("Id: "+id);
     method = "PUT";
     query = "SELECT name FROM playlist WHERE name = '" + name + "'";
     if (!this.existsInDB(query)){
-      query = "INSERT INTO playlist (name) VALUES ('" + name +"')";
-      j = this.request(method,query); 
+      query = "SELECT name FROM playlist";
+      j = this.request(method,query);
+      num = j.response.length;
+      console.log(j);
+      console.log("NUM of playlists = "+num);
+      if (num < 6){
+        query = "INSERT INTO playlist (name,playlist_id) VALUES ('" + name +"', " + id+ ")";
+        j = this.request(method,query);
+      }else{
+        alert("only 5 playlists allowed!");
+      }
     }
     else{
       console.log("Already exists!!");
@@ -60,7 +71,7 @@ var DBOps = {
     query1 = "SELECT track.track_id FROM track WHERE track.spotify_track_id = '" + item.spotify_track_id + "'";
     query2 = "SELECT playlist.playlist_id FROM playlist WHERE playlist.name = '" + playlist + "'";
     this.updateReproduced(item);
-    this.createPlaylist(playlist);
+    this.createPlaylist(playlist, DOMManager.playlist.length+1);
     j1 = this.request("PUT", query1);
     j2 = this.request("PUT", query2);
     track_id = j1.response[0].track_id;
@@ -92,6 +103,48 @@ var DBOps = {
     method = "PUT";
     query = "TRUNCATE TABLE hipermedia."+table;
     j = this.request(method,query);  
+  },
+
+  getPlaylists: function(){
+    method = "PUT";
+    query = "SELECT name from playlist";
+    j = this.request(method,query);
+    playlists = [];
+    for (i = 0; i < j.response.length; i++){
+      playlists[i] = j.response[i].name;
+    }
+    return playlists;
+  },
+
+  showPlaylistTracks: function(name){
+    query = "SELECT playlist_id FROM playlist WHERE name = '"+name+"'";
+    j = this.request("PUT",query);
+    playlist_id = j.response[0].playlist_id;
+    query = "SELECT track_id from playlist_track WHERE playlist_id = "+playlist_id;
+    j = this.request("PUT",query);
+    ids = j.response;
+    songs = [];
+    for (i = 0; i < ids.length; i++){
+      query = "SELECT * FROM track WHERE track_id = "+ids[i].track_id;
+      j = this.request("PUT", query);
+      console.log(j.response[0]);
+      songs[i] = j.response[0];
+    }
+    return songs;
+  },
+
+  deletePlaylist: function(name){
+    query = "SELECT playlist_id FROM playlist WHERE name= '"+name+"'";
+
+    j = this.request("PUT",query);
+    console.log(j);
+    playlist_id = j.response[0].playlist_id;
+
+    query = "DELETE FROM playlist_track WHERE playlist_id="+playlist_id;
+    j = this.request("PUT",query);
+    query = "DELETE FROM playlist WHERE playlist_id="+playlist_id;
+    j = this.request("PUT", query);
+
   }
 
 };
