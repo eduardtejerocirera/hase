@@ -309,17 +309,28 @@ var DOMManager = {
       Listener.addTrackToPlaylistListener();
 
       document.getElementById("td-play"+i).appendChild(video);
+
+      document.getElementById("play"+i).style.display = "none";
   },
 
-  destroyVideos: function(){
-    var videos = document.getElementsByClassName("song");
+  destroyVideos: function(i){
+    /*var videos = document.getElementsByClassName("song");
     for(i = 0; i < videos.length; i++){
       id = videos[i].getAttribute("id");
       document.getElementById(id).remove();
       document.getElementById("Add").remove();
       document.getElementById("addButton").remove();
+
+      document.getElementById("play"+i).style.display = "inline";
       //cell = document.getElementById("td-play"+i);
-    }
+    }*/
+
+    document.getElementById("song"+i).remove();
+    document.getElementById("Add").remove();
+    document.getElementById("addButton").remove();
+    document.getElementById("play"+i).style.display = "inline";
+
+
   },
 
   newPlaylistButton: function(name, i){

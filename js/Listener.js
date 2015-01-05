@@ -1,4 +1,6 @@
 var Listener = {
+  lastPlayed: -1,
+
   init: function(){
     this.addSearchListener();
     this.addMainPageListener();
@@ -161,6 +163,9 @@ var Listener = {
   },
 
   addPlaySongListener: function(){
+
+    this.lastPlayed = -1;
+
     for (i = 0; i < DOMManager.nItem; i++){
       var play = document.getElementById("play"+i);
       play.addEventListener("click",function(){
@@ -178,8 +183,11 @@ var Listener = {
       artist = DOMManager.items[i].artist;
       track = DOMManager.items[i].name;
       video = APImanager.y_getVideo(artist,track);
-      DOMManager.destroyVideos();
+      if (this.lastPlayed != -1){
+        DOMManager.destroyVideos(this.lastPlayed);
+      }
       DOMManager.embedVideo(video,i);
+      this.lastPlayed = i;
       DBOps.addTrackToPlaylist(item,"default");
     }
   },
