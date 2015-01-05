@@ -6,7 +6,6 @@ var DBOps = {
       xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
       xhr.send(query);
       var response = xhr.responseText;
-      //console.log(xhr.status);
       var json_response = xhr.responseText;
       json = JSON.parse(json_response);
       return json;
@@ -36,9 +35,7 @@ var DBOps = {
     items = null;
     if(this.existsInDB(query)){
       j = this.request(method,query);
-      console.log(j);
       artist_id = j.response[0].spotify_artist_id;
-      console.log("artist_id: "+artist_id);
       items = APImanager.getRelatedArtists(artist_id);
     }
     return items;
@@ -46,15 +43,12 @@ var DBOps = {
 
   createPlaylist: function(name, id){
     
-    console.log("Id: "+id);
     method = "PUT";
     query = "SELECT name FROM playlist WHERE name = '" + name + "'";
     if (!this.existsInDB(query)){
       query = "SELECT name FROM playlist";
       j = this.request(method,query);
       num = j.response.length;
-      console.log(j);
-      console.log("NUM of playlists = "+num);
       if (num < 6){
         query = "INSERT INTO playlist (name,playlist_id) VALUES ('" + name +"', " + id+ ")";
         j = this.request(method,query);
@@ -63,7 +57,7 @@ var DBOps = {
       }
     }
     else{
-      console.log("Already exists!!");
+      alert("This playlist already exists!");
     }
   },
 
@@ -71,7 +65,7 @@ var DBOps = {
     query1 = "SELECT track.track_id FROM track WHERE track.spotify_track_id = '" + item.spotify_track_id + "'";
     query2 = "SELECT playlist.playlist_id FROM playlist WHERE playlist.name = '" + playlist + "'";
     this.updateReproduced(item);
-    this.createPlaylist(playlist, DOMManager.playlist.length+1);
+    //this.createPlaylist(playlist, DOMManager.playlist.length+1);
     j1 = this.request("PUT", query1);
     j2 = this.request("PUT", query2);
     track_id = j1.response[0].track_id;
@@ -85,8 +79,6 @@ var DBOps = {
   existsInDB: function(query){
     method = "PUT";
     j = this.request(method,query);
-    console.log(j);
-    console.log(query);
     if (j.debug.affected_rows === 0){
       return false;
     }
@@ -127,7 +119,6 @@ var DBOps = {
     for (i = 0; i < ids.length; i++){
       query = "SELECT * FROM track WHERE track_id = "+ids[i].track_id;
       j = this.request("PUT", query);
-      console.log(j.response[0]);
       songs[i] = j.response[0];
     }
     return songs;
@@ -137,7 +128,6 @@ var DBOps = {
     query = "SELECT playlist_id FROM playlist WHERE name= '"+name+"'";
 
     j = this.request("PUT",query);
-    console.log(j);
     playlist_id = j.response[0].playlist_id;
 
     query = "DELETE FROM playlist_track WHERE playlist_id="+playlist_id;

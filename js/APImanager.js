@@ -4,7 +4,6 @@ var APImanager = {
       var xhr = new XMLHttpRequest();
       xhr.open(method,url,false);
       xhr.send();
-      //console.log(xhr.status);
       var json_response = xhr.responseText;
       json = JSON.parse(json_response);
       return json
@@ -15,9 +14,6 @@ var APImanager = {
         url = "https://api.spotify.com/v1/search?query="+text+"&offset="+offset+"&limit="+limit+"&type="+type;
         method = "GET";
         j = this.request(method,url);
-      }
-      else{
-        //console.log("Invalid search!!");
       }
       return j;
   },
@@ -43,7 +39,6 @@ var APImanager = {
 
     it = this.it(type,j);
     items = [];
-    console.log(j);
 
     for (i = 0; i < it.items.length; i++){
         //t = item();
@@ -108,7 +103,6 @@ var APImanager = {
     url = "https://api.spotify.com/v1/artists/" + id + "/albums";
     method = "GET";
     j = this.request(method, url);
-    console.log("ID en API manager: " + id);
     albums = [];
     for (i = 0; i < j.items.length; i++){
       //a = item();
@@ -155,7 +149,6 @@ var APImanager = {
   },
 
   getRelatedArtists: function(id){
-    console.log("artist_id: "+id);
     url = "https://api.spotify.com/v1/artists/"+id+"/related-artists";
     j = this.request("GET",url);
     items = [];

@@ -59,10 +59,6 @@ var DOMManager = {
     this.createBigContainer();
     this.createNexPreviousButtons();
     this.setTitle(text);
-    console.log("page ="+ this.page);
-    console.log("iVal ="+ this.iVal);
-    console.log("fVal ="+ this.fVal);
-    console.log("length de items = "+ this.items.length);
     for (i = this.iVal; i < this.items.length && i < this.fVal; i++){
       if (i % 4 == 0){
         this.createItemBoxDiv();

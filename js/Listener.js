@@ -22,10 +22,8 @@ var Listener = {
     type = DOMManager.getOptionComboBox();
     DOMManager.type = this.setType(type);
     txt = document.getElementById('textbox').value;
-    console.log(txt);
     j = APImanager.s_search(txt,DOMManager.type,0,50);
     var items = [];
-    
     DOMManager.items = APImanager.s_getData(j, DOMManager.type);
     DOMManager.printItems("Searching "+ DOMManager.type + "s as " + txt);
     
@@ -51,11 +49,8 @@ var Listener = {
     var i  = this.getIdFromEvent(event.srcElement.parentElement.id);
     if (i != -1){
       i = i + DOMManager.page*INCREMENT;
-      console.log(DOMManager.items);
-      console.log(i);
       id = DOMManager.items[i].spotify_artist_id;
       artist = DOMManager.items[i].name;
-      console.log("ID en listener:" + id);
       var items = [];
       items = APImanager.getAlbumsFromArtist(id, artist);
       DOMManager.items = items;
@@ -183,7 +178,6 @@ var Listener = {
       artist = DOMManager.items[i].artist;
       track = DOMManager.items[i].name;
       video = APImanager.y_getVideo(artist,track);
-      console.log(video);
       DOMManager.destroyVideos();
       DOMManager.embedVideo(video,i);
       DBOps.addTrackToPlaylist(item,"default");
@@ -202,7 +196,6 @@ var Listener = {
 
   newPlaylistListtener: function(){
     txt = document.getElementById("textboxN").value;
-    console.log("DOMManager.playlist: "+DOMManager.playlist);
     DBOps.createPlaylist(txt,DOMManager.playlist.length+1);
     DOMManager.setPlaylistButtons();
     Listener.addOpenPlaylistListener();
@@ -217,7 +210,6 @@ var Listener = {
   },
   
   trackToPlaylistListner: function(){
-    console.log(event);
     var i = event.srcElement.parentElement.id;
     i = i.substring(11);
     i = parseInt(i);
@@ -226,13 +218,11 @@ var Listener = {
     var obj = document.getElementById("addButton");
     var playlist = obj.options[obj.selectedIndex].text;
     DBOps.addTrackToPlaylist(item,playlist);
-    console.log(playlist);
   },
 
   addOpenPlaylistListener: function(){
 
     for(i = 1; i < DOMManager.playlist.length; i++){
-      console.log(i);
       button = document.getElementById("list"+i);
       button.addEventListener("click", function(){
         Listener.openPlaylistListener();
@@ -245,7 +235,6 @@ var Listener = {
     i = this.getIdFromEvent(i);
     name = DOMManager.playlist[i];
     songs = DBOps.showPlaylistTracks(name);
-    console.log(songs);
     DOMManager.items = songs;
     DOMManager.type = "track";
     DOMManager.printItems("Playlist: "+ name);
@@ -262,12 +251,15 @@ var Listener = {
 
   deletePlaylistListener: function(){
     var i = event.srcElement.id;
+    if (i.length != 5){
+      i = event.srcElement.parentNode.id;
+    }
     i = this.getIdFromEvent(i);
-    console.log("DP:"+DOMManager.playlist);
-    console.log("i:"+i);
     name = DOMManager.playlist[i];
     DBOps.deletePlaylist(name);
     DOMManager.setPlaylistButtons();
+    this.addOpenPlaylistListener();
+    this.addDeletePlaylistListener();
 
   }
   
