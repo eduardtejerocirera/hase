@@ -83,6 +83,7 @@ var DOMManager = {
     }
     if (this.type == "track"){
       Listener.addPlaySongListener();
+      Listener.addFavSongListener();
     }
   },
 
@@ -192,7 +193,8 @@ var DOMManager = {
     cellplay = this.NewPlayCell(i);
     cellList = this.NewCell(" ");
     cellList.setAttribute("id","td-playlist"+i);
-    row = this.NewRow(cell1, cell2, cell3, cellnum, cellplay,cellList);
+    cellFav = this.NewFavCell(i);
+    row = this.NewRow(cell1, cell2, cell3, cellnum, cellplay,cellList, cellFav);
     document.getElementById("table-body").appendChild(row);
     this.nItem++;
   },
@@ -213,7 +215,8 @@ var DOMManager = {
     h3 = this.NewHeader("Artist");
     hplay = this.NewHeader(" ");
     hlist = this.NewHeader(" ");
-    row = this.NewRow(h1,h2,h3,hnum,hplay,hlist);
+    hf = this.NewHeader(" ");
+    row = this.NewRow(h1,h2,h3,hnum,hplay,hlist,hf);
     head.appendChild(row);
     parent.appendChild(head);
     return parent;
@@ -232,7 +235,7 @@ var DOMManager = {
     return column;
   },
 
-  NewRow: function(e1, e2, e3, num, play, playlist){
+  NewRow: function(e1, e2, e3, num, play, playlist, fav){
     row = document.createElement("tr");
     row.appendChild(num);
     row.appendChild(play);
@@ -240,6 +243,7 @@ var DOMManager = {
     row.appendChild(e1);
     row.appendChild(e2);
     row.appendChild(e3);
+    row.appendChild(fav);
         return row;
   },
 
@@ -257,6 +261,17 @@ var DOMManager = {
     play.setAttribute("class","fa fa-play");
     play.setAttribute("id","play"+i);
     cell.appendChild(play);
+    return cell;
+  },
+
+  NewFavCell: function(i){
+    cell = document.createElement("td");
+    cell.setAttribute("class","fav");
+    cell.setAttribute("id","td-fav"+i);
+    thumb = document.createElement("i");
+    thumb.setAttribute("id", "favo"+i);
+    thumb.setAttribute("class", "fa fa-thumbs-up");
+    cell.appendChild(thumb);
     return cell;
   },
 
@@ -329,14 +344,16 @@ var DOMManager = {
     button1.setAttribute("id", "list"+i);
     button1.innerHTML = name;
     
-    button2 = document.createElement("button");
-    button2.setAttribute("class", "btn btn-default dropdown-toggle");
-    button2.setAttribute("id","dele"+i);
+    if (i != 1){
+      button2 = document.createElement("button");
+      button2.setAttribute("class", "btn btn-default dropdown-toggle");
+      button2.setAttribute("id","dele"+i);
 
-    i = document.createElement("i");
-    i.setAttribute("class", "fa fa-times");
+      i = document.createElement("i");
+      i.setAttribute("class", "fa fa-times");
 
-    button2.appendChild(i);
+      button2.appendChild(i);
+    }
     //button2.setAttribute("data-toggle", "dropdown");
     //button2.setAttribute("aria-expanded","false");
 
@@ -361,7 +378,10 @@ var DOMManager = {
     //ul.appendChild(li);
 
     div.appendChild(button1);
-    div.appendChild(button2);
+    
+    if (i != 1){
+      div.appendChild(button2);
+    }
     //div.appendChild(ul);
 
 

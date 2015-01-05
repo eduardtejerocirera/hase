@@ -181,9 +181,25 @@ var Listener = {
       DOMManager.destroyVideos();
       DOMManager.embedVideo(video,i);
       DBOps.addTrackToPlaylist(item,"default");
-      //DBOps.updateReproduced(item);
-      //DOMManager.resetPages();
-      //DOMManager.printItems("Albums from " + artist.artist);
+    }
+  },
+
+  addFavSongListener: function(){
+    for (i = 0; i < DOMManager.nItem; i++){
+      var thumb = document.getElementById("favo"+i);
+      thumb.addEventListener("click",function(){
+        Listener.favSongListener();
+      });
+    }
+  },
+
+  favSongListener: function(){
+    var i = this.getIdFromEvent(event.srcElement.id);
+    if (i != -1){
+      i = i + DOMManager.page*INCREMENT;
+      item = DOMManager.items[i];
+      console.log(item);
+      DBOps.addTrackToPlaylist(item,"favoritos");
     }
   },
 
@@ -241,7 +257,7 @@ var Listener = {
   },
 
   addDeletePlaylistListener: function(){
-    for(i = 1; i < DOMManager.playlist.length; i++){
+    for(i = 2; i < DOMManager.playlist.length; i++){
       button = document.getElementById("dele"+i);
       button.addEventListener("click", function(){
         Listener.deletePlaylistListener();
@@ -251,10 +267,12 @@ var Listener = {
 
   deletePlaylistListener: function(){
     var i = event.srcElement.id;
-    if (i.length != 5){
-      i = event.srcElement.parentNode.id;
-    }
     i = this.getIdFromEvent(i);
+    if (i == -1){
+      i = event.srcElement.parentNode.id;
+      i = this.getIdFromEvent(i);
+    }
+    
     name = DOMManager.playlist[i];
     DBOps.deletePlaylist(name);
     DOMManager.setPlaylistButtons();
