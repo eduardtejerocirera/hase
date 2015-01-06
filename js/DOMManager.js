@@ -88,21 +88,26 @@ var DOMManager = {
   },
 
   createImage: function(url){
+    figure = document.createElement("figure");
     img = document.createElement('img');
     img.setAttribute("src",url);
     img.setAttribute("alt","image");
-    return img;
+    figcaption = document.createElement("figcaption");
+    figure.appendChild(img);
+    figure.appendChild(figcaption);
+    return figure;
   },
 
   renderAlbum: function(element, album){
     this.createItemDiv(this.nItemBox - 1);
     img = this.createImage(element.img_url);
-    document.getElementById("item" + album).appendChild(img);
+    //document.getElementById("item" + album).appendChild(img);
 
     div = this.createDiv("info"+album,"info");
     this.insertText(div, element.artist + " - ", "nomartista");
     this.insertText(div, element.name, "nomalbum");
-    document.getElementById("item" + album).appendChild(div);
+    img.getElementsByTagName("figcaption")[0].appendChild(div);
+    document.getElementById("item" + album).appendChild(img);
 
     this.nItem++;
   },
@@ -110,10 +115,13 @@ var DOMManager = {
   renderArtist: function(element, artist){
     this.createItemDiv(this.nItemBox - 1);
     img = this.createImage(element.img_url);
-    document.getElementById("item" + artist).appendChild(img);
+    //document.getElementById("item" + artist).appendChild(img);
+    
     div = this.createDiv("info"+artist,"info");
     this.insertText(div, element.name, "nomartista");
-    document.getElementById("item" + artist).appendChild(div);
+    img.getElementsByTagName("figcaption")[0].appendChild(div);
+    
+    document.getElementById("item" + artist).appendChild(img);
 
     this.nItem++;
   },

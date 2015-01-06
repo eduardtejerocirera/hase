@@ -38,7 +38,7 @@ var APImanager = {
   s_getData: function(j, type){
 
     it = this.it(type,j);
-    items = [];
+    things = [];
 
     for (i = 0; i < it.items.length; i++){
         //t = item();
@@ -86,9 +86,9 @@ var APImanager = {
           t.spotify_artist_id = it.items[i].id;
         }
         
-        items[i] = t;
+        things[i] = t;
     }
-    return items;
+    return things;
   },
 
   getArtistFromAlbum: function(id, item){

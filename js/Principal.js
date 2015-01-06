@@ -255,13 +255,13 @@ function searchList (){
     //DBOps.createPlaylist("Hola");
     //DBOps.addTrackToPlaylist(sL.items[0],"HOLA");
     
-    /*
+    
     //RESET DB------------------------------
     DBOps.emptyDB();
     DBOps.createPlaylist("default",1);
     DBOps.createPlaylist("favoritos",2);
     //-----------------------------------------
-    */
+    
 
 
     DOMManager.playlist = DBOps.getPlaylists();
