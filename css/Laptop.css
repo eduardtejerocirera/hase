@@ -30,15 +30,19 @@
 		font-family: 'Hammersmith One', sans-serif;
 		padding-left: 36%;
 		font-size: 365%;
+		cursor: pointer;
 	}
-
+	#playlistbuttons{
+		margin-bottom:10%;
+	}
 	/*sobreescrivim el "id" myselect (que per defecte aplica el user agent stylesheet)per adapar-lo al nostre estil*/
 	#mySelect{
 		margin-left: 33%;
 		width: 30%;
 		background-color: rgba(255, 255, 255, 0.24);
 		color: white;
-		margin-top: 10%;
+		
+		margin-bottom: 10%;
 		font-family: 'Hammersmith One', sans-serif;
 		transform: scale(1.7);
 
@@ -166,12 +170,48 @@
 		display: inline-block;
 		margin: auto;
 	}
+
+	/*BOTO DE PLAY i BOTO DE FAVORIT DINS DE TRACKS*/
 	.play{
 		cursor: pointer;
 	}
+	.fav{
+		cursor: pointer;
+		color:green;
+		font-size: 145%;
+	}
+
+
+/*Parella de selectors de playlist on volem que vagi la cançó dins de tracks.*/
+	#addButton{
+		background-color: rgba(255, 255, 255, 0.19);
+		border-radius: 14px;
+		border-style: solid;
+		margin-bottom: 10%;
+		font-family: 'Hammersmith One', sans-serif;
+		
+
+	}
+	#Add{
+		background-color: rgba(255, 255, 255, 0.19);
+		border-radius: 14px;
+		border-style: solid;
+		font-family: 'Hammersmith One', sans-serif;
+	}
 	
 	/*-----------------------------BOOTSRAP REDESIGN-------------------------------*/
-	/* Boto amb la lupa del buscador*/
+	/*td son cada una de les cel·les de tracks*/
+	td{
+		font-family: 'Hammersmith One', sans-serif;
+	}
+	/* Boto amb la lupa del buscador i boto amb el simbol + */
+	#btn-group{
+		margin-bottom: 5%;
+	}
+	#btn-group i{
+		color:red;
+		
+	}
 	.btn-default{
 		background-color: rgba(255, 255, 255, 0.19);
 		border-radius: 14px;
@@ -185,11 +225,13 @@
 	}
 	.input-group{
 		transform: scale(1.7);
+		margin-bottom: 10%;
 	}
 	.input-group .form-control{
 		
 		
 	}
+	
 	.jumbotron{
 	padding: 1px 15px;
 	margin-bottom: 30px;
