@@ -92,10 +92,11 @@ var DOMManager = {
     img = document.createElement('img');
     img.setAttribute("src",url);
     img.setAttribute("alt","image");
-    //figcaption = document.createElement("figcaption");
+    figcaption = document.createElement("figcaption");
     figcaption.setAttribute("id","figc"+i);
     figure.appendChild(img);
     figure.appendChild(figcaption);
+    figure.setAttribute("id","figu"+i);
     return figure;
   },
 
