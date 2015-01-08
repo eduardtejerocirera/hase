@@ -19,6 +19,7 @@
 	#header{
 		background-color:  rgba(2, 1, 1, 1);
 		margin-bottom: 4%;
+
 		
 	}
 	.title{
@@ -103,6 +104,7 @@
 		width: 100%;
 		margin:auto;
 		color: white;
+		cursor: pointer;
 
 	}
 	p.nomartista{
