@@ -87,12 +87,13 @@ var DOMManager = {
     }
   },
 
-  createImage: function(url){
+  createImage: function(url,i){
     figure = document.createElement("figure");
     img = document.createElement('img');
     img.setAttribute("src",url);
     img.setAttribute("alt","image");
-    figcaption = document.createElement("figcaption");
+    //figcaption = document.createElement("figcaption");
+    figcaption.setAttribute("id","figc"+i);
     figure.appendChild(img);
     figure.appendChild(figcaption);
     return figure;
@@ -100,7 +101,7 @@ var DOMManager = {
 
   renderAlbum: function(element, album){
     this.createItemDiv(this.nItemBox - 1);
-    img = this.createImage(element.img_url);
+    img = this.createImage(element.img_url,album);
     //document.getElementById("item" + album).appendChild(img);
 
     div = this.createDiv("info"+album,"info");
