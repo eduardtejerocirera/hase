@@ -99,6 +99,7 @@
 		color: white;
 		width: 35%;
 		display: block;
+		margin-bottom: 3%;
 	}
 	p{
 		width: 100%;
@@ -146,7 +147,7 @@
 		padding-top: 0.5%;
 		margin: auto;
 		color: white;
-		width: 13%;
+		width: 22%;;
 		font-family: 'Hammersmith One', sans-serif;
 	}
 	#nextR{
@@ -189,18 +190,26 @@
 		background-color: rgba(255, 255, 255, 0.19);
 		border-radius: 14px;
 		border-style: solid;
-		margin-bottom: 10%;
+		margin-bottom: 1%;
 		font-family: 'Hammersmith One', sans-serif;
 		
 
 	}
-	#Add{
+	.Add{
 		background-color: rgba(255, 255, 255, 0.19);
 		border-radius: 14px;
 		border-style: solid;
 		font-family: 'Hammersmith One', sans-serif;
 	}
-	
+	.song{
+		box-shadow: 14px 2px 39px rgba(12, 2, 2, 0.72);
+		margin-bottom: 7%;
+		transform: scale(1.3);
+	}
+	.repr{
+		margin-left: 33%;
+		
+	}
 	/*-----------------------------BOOTSRAP REDESIGN-------------------------------*/
 	/*td son cada una de les cel·les de tracks*/
 	td{
@@ -240,12 +249,4 @@
 	color: inherit;
 	background-color: #DDD5D5;
 	}
-	
-
-
-
-
-
-
-
 }
