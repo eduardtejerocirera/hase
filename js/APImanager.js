@@ -1,6 +1,21 @@
 
+/**
+*El objeto APImanager sirve para comunicarnos con las APIs Spotify y Youtube 
+*(realizar peticiones y parsear la información recibida para poderla usar convenientemente)
+*/
+
 var APImanager = {
   
+  /**
+  * Realiza la comunicacion con la API Spotify usando AJAX.
+  * La comunicación con el servidor es síncrona, ya que no nos interesa que la aplicación siga funcionando si el servidor no responde.
+  * 
+  * @param method método de petición (GET, PUT, POST,...)
+  * @param url dirección de la API a la que se le hace la petición
+  * @return respuesta de la petición en formato JSON
+  * 
+  */
+
   request: function(method, url){
       var xhr = new XMLHttpRequest();
       xhr.open(method,url,false);
@@ -10,6 +25,15 @@ var APImanager = {
       return json
   },
 
+  
+  /**
+  * Realiza una búsqueda en la base de datos de Spotify.
+  * 
+  * @param text texto de búsqueda
+  * @param type tipo de búsqueda (artist, album, track)
+  * @return respuesta de la petición en formato JSON
+  * 
+  */
   s_search: function(text,type,offset,limit){
       if(type === "artist" || type === "album" || type === "track"){
         url = "https://api.spotify.com/v1/search?query="+text+"&offset="+offset+"&limit="+limit+"&type="+type;
@@ -19,7 +43,16 @@ var APImanager = {
       return j;
   },
 
-
+  
+  /**
+  * Devuelve una parte del JSON entrado para que pueda ser tratado posteriormente de manera igual
+  * sin importar que la respuesta provenga de un artista, álbum o canción.
+  * 
+  * @param type tipo de ítem (artist, album, track)
+  * @param j    JSON a tratar
+  * @return     parte del JSON adaptada para ser tratada de forma más fácil.
+  * 
+  */
   it: function(type,j){
     var it = null;
 
@@ -36,6 +69,16 @@ var APImanager = {
     return it;
   },
 
+
+/**
+  * Obtiene la información deseada del JSON entrado, ya sea relativo a track, album o artista.
+  * La guarda en un array de items.
+  * 
+  * @param j    JSON a parsear.
+  * @param type tipo de item (track, album o artist) a almacenar
+  * @return     array de items con la información extraida del JSON.
+  * 
+  */
   s_getData: function(j, type){
 
     it = this.it(type,j);
@@ -92,6 +135,15 @@ var APImanager = {
     return things;
   },
 
+
+/**
+  * Obtiene un artista dado su album
+  * 
+  * @param id   id del album de Spotify.
+  * @param item objeto en el que se guardará el artista
+  * 
+  */
+
   getArtistFromAlbum: function(id, item){
     url = "https://api.spotify.com/v1/albums/" + id;
     method = "GET";
@@ -100,6 +152,15 @@ var APImanager = {
     item.spotify_artist_id = j.artists[0].id;
   },
 
+
+/**
+  * Obtiene los álbumes de un artista.
+  * 
+  * @param id       id de Spotify del Artista.
+  * @param artName  nombre del artista
+  * @return         array de items con la información extraida del JSON.
+  * 
+  */
   getAlbumsFromArtist: function(id,artName){
     url = "https://api.spotify.com/v1/artists/" + id + "/albums";
     method = "GET";
@@ -124,6 +185,14 @@ var APImanager = {
     return albums;
   },
 
+
+/**
+  * Obtiene las canciones de un álbum.
+  * 
+  * @param album    objeto con los datos del album
+  * @return         array de items con la información extraida del JSON.
+  * 
+  */
   getTracksFromAlbum : function(album){
     url = "https://api.spotify.com/v1/albums/" + album.spotify_album_id + "/tracks";
     method = "GET";
@@ -149,6 +218,14 @@ var APImanager = {
 
   },
 
+
+/**
+  * Obtiene los artistas relacionados dado un artista
+  * 
+  * @param id       id de Spotify del Artista.
+  * @return         array de items con la información extraida del JSON.
+  * 
+  */
   getRelatedArtists: function(id){
     url = "https://api.spotify.com/v1/artists/"+id+"/related-artists";
     j = this.request("GET",url);
@@ -171,6 +248,13 @@ var APImanager = {
     return items;
   },
 
+
+/**
+  * Obtiene los álbumes más populares de Spotify.
+  * 
+  * @return  array de items con la información extraida del JSON.
+  * 
+  */
   getMostPopular: function(){
     url = "http://ws.spotify.com/search/1/album.json?q=year:0-3000";
     method = "GET";
@@ -187,6 +271,14 @@ var APImanager = {
     return albums;
   },
 
+
+/**
+  * Obtine un álbum dado su ID
+  * 
+  * @param id       id de Spotify del álbum.
+  * @return         array de items con la información extraida del JSON.
+  * 
+  */
   getAlbumFromId: function (id){
     url = "https://api.spotify.com/v1/albums/"+id;
     method = "GET";
@@ -208,6 +300,17 @@ var APImanager = {
     return a;
   },
 
+
+/**
+  * Realiza la comunicacion con la API Youtube v2 usando AJAX.
+  * La comunicación con el servidor es síncrona, ya que no nos interesa que la aplicación siga funcionando si el servidor no responde.
+  * 
+  * @param method método de petición (GET, PUT, POST,...)
+  * @param url dirección de la API a la que se le hace la petición
+  * @return respuesta de la petición en formato JSON
+  * 
+  */
+
   y_request: function(method, url){
       var xhr = new XMLHttpRequest();
       xhr.open(method,url,false);
@@ -221,11 +324,28 @@ var APImanager = {
       return jsonObj;
   },
 
+
+/**
+  * Extrae los espacios de un string
+  * 
+  * @param  str string a tratar
+  * @return string sin espacios
+  * 
+  */
   noSpaces: function(str){
     str = str.replace(/\s+/g, '+');
     return str;
   },
 
+
+/**
+  * Obtiene la url de un video de Youtube
+  * 
+  * @param  artist nombre del artista de la canción
+  * @param  name   nombre de la canción
+  * @return url del video
+  * 
+  */
   y_getVideo: function(artist, name){
       artist = this.noSpaces(artist);
       name = this.noSpaces(name);

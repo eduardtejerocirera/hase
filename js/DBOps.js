@@ -1,4 +1,19 @@
+  /**
+  * Este objeto se comunica con la base de datos SQL 
+  */
+
+
 var DBOps = {
+
+  /**
+  * Realiza la comunicacion con la Base de Datos SQL usando AJAX.
+  * La comunicación con el servidor de la BD es síncrona, ya que no nos interesa que la aplicación siga funcionando si el servidor no responde.
+  * 
+  * @param method método de petición (GET, PUT, POST,...)
+  * @param query sentencia SQL a ejecutar en la BD 
+  * @return respuesta de la petición en formato JSON
+  * 
+  */
   request: function(method, query){
       url = "http://api.hipermedia.local/query";
       var xhr = new XMLHttpRequest();
@@ -10,6 +25,16 @@ var DBOps = {
       json = JSON.parse(json_response);
       return json;
   },
+
+  
+  /**
+  * Comprueba si una canción, al ser reproducida, se encuentra en la BD.
+  * Si lo está, aumenta el número de reproducciones.
+  * Si no, la inserta en la BD.
+  * 
+  * @param item canción a insertar en la BD.
+  * 
+  */
   updateReproduced: function(item){
     method = "PUT";
     var alb = this.noQuotes(item.album);
@@ -31,6 +56,14 @@ var DBOps = {
         }
     },
 
+  
+  /**
+  * Obtiene el artista con más reproducciones de la BD y busca sus artistas relacionados según Spotify.
+  *
+  * @return array de artistas relacionados.
+  * 
+  */
+
   getRelatedArtists: function(){
     method = "PUT";
     query = "SELECT SUM(reproduced), spotify_artist_id FROM track GROUP BY spotify_artist_id ORDER BY SUM(reproduced) DESC";
@@ -44,6 +77,14 @@ var DBOps = {
     return items;
   },
 
+  
+  /**
+  * Crea una playlist en la base de datos
+  * 
+  * @param name nombre de la lista de reproducción
+  * @param id   identificador de la playlist en la base de datos.    
+  * 
+  */
   createPlaylist: function(name, id){
     name = this.noQuotes(name);
     method = "PUT";
@@ -64,6 +105,15 @@ var DBOps = {
     }
   },
 
+
+ /**
+  * Añade una canción a una playlist de la BD.
+  * 
+  * @param item     objeto cancion con todos los datos de la misma.
+  * @param playlist nombre de la playlist   
+  * 
+  */
+
   addTrackToPlaylist: function(item, playlist){
     playlist = this.noQuotes(playlist);
     query1 = "SELECT track.track_id FROM track WHERE track.spotify_track_id = '" + item.spotify_track_id + "'";
@@ -81,6 +131,14 @@ var DBOps = {
     
   },
 
+  
+  /**
+  * Comprueba que un elemento existe en la BD
+  * 
+  * @param query  Sentencia SQL
+  * @return       cierto o falso según si existe o no.  
+  * 
+  */
   existsInDB: function(query){
     method = "PUT";
     j = this.request(method,query);
@@ -90,18 +148,35 @@ var DBOps = {
     return true;
   },
 
+
+  /**
+  * Vacía la BD  
+  * 
+  */
   emptyDB: function(){
     this.truncateTable("track");
     this.truncateTable("playlist");
     this.truncateTable("playlist_track");
   },
 
+  /**
+  * Vacía una tabla.
+  * 
+  * @param table nombre de la tabla
+  * 
+  */
   truncateTable: function(table){
     method = "PUT";
     query = "TRUNCATE TABLE hipermedia."+table;
     j = this.request(method,query);  
   },
 
+/**
+  * Obtiene todas las playlists de la BD
+  * 
+  * @return array de playlists.  
+  * 
+  */
   getPlaylists: function(){
     method = "PUT";
     query = "SELECT name from playlist";
@@ -112,6 +187,14 @@ var DBOps = {
     }
     return playlists;
   },
+
+  /**
+  * Obtiene todas las canciones dada una playlist
+  * 
+  * @param  name nombre de la playlist
+  * @return array de tracks.
+  * 
+  */
 
   showPlaylistTracks: function(name){
     name = this.noQuotes(name);
@@ -130,6 +213,13 @@ var DBOps = {
     return songs;
   },
 
+
+/**
+  * Borra una playlist de la BD
+  * 
+  * @param name nombre de la playlist
+  * 
+  */
   deletePlaylist: function(name){
     name = this.noQuotes(name);
     query = "SELECT playlist_id FROM playlist WHERE name= '"+name+"'";
@@ -144,6 +234,14 @@ var DBOps = {
 
   },
 
+
+  /**
+  * Elimina las comillas simples de un string
+  * 
+  * @param str string a tratar
+  * @return string tratado
+  * 
+  */
   noQuotes: function(str){
     str = str.replace(/'+/g,'');
     return str;
