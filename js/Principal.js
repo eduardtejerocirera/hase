@@ -1,4 +1,8 @@
 
+
+/**
+*Objeto item. Guarda informacion de un item, ya sea track, album o artist.
+*/
 function item (){
   return{
     album: "",
@@ -12,12 +16,20 @@ function item (){
   }
 }
 
+
+/**
+* Objeto youtube Song. Solo contiene la url del video a reproducir
+*/ 
 function ySong(){
   return{
     url: ""
   }
 }
 
+
+/**
+* Listado de items
+*/
 function searchList (){
     return{
       items: []
@@ -26,7 +38,17 @@ function searchList (){
 
 
 
+/**
+*Objeto desde el que se inicializa la aplicación.
+*/
+
  var Principal = {
+
+  /**
+  * funcion principal, donde se inicializa la aplicacion
+  * Las primeras sentencias permiten resetear la BD.
+  * El resto inicializa el DOM i Listeners correspondientes
+  */
   main: function(){
     
     //RESET DB------------------------------
