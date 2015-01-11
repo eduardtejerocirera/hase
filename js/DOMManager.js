@@ -88,16 +88,17 @@ var DOMManager = {
   },
 
   createImage: function(url,i){
-    figure = document.createElement("figure");
+    //figure = document.createElement("figure");
     img = document.createElement('img');
     img.setAttribute("src",url);
     img.setAttribute("alt","image");
-    figcaption = document.createElement("figcaption");
-    figcaption.setAttribute("id","figc"+i);
-    figure.appendChild(img);
-    figure.appendChild(figcaption);
-    figure.setAttribute("id","figu"+i);
-    return figure;
+    img.setAttribute("id","imag"+i);
+    //figcaption = document.createElement("figcaption");
+    //figcaption.setAttribute("id","figc"+i);
+    //figure.appendChild(img);
+    //figure.appendChild(figcaption);
+    //figure.setAttribute("id","figu"+i);
+    return img;
   },
 
   renderAlbum: function(element, album){
@@ -108,8 +109,10 @@ var DOMManager = {
     div = this.createDiv("info"+album,"info");
     this.insertText(div, element.artist + " - ", "nomartista");
     this.insertText(div, element.name, "nomalbum");
-    img.getElementsByTagName("figcaption")[0].appendChild(div);
+    //img.getElementsByTagName("figcaption")[0].appendChild(div);
+
     document.getElementById("item" + album).appendChild(img);
+    document.getElementById("item" + album).appendChild(div);
 
     this.nItem++;
   },
@@ -121,9 +124,11 @@ var DOMManager = {
     
     div = this.createDiv("info"+artist,"info");
     this.insertText(div, element.name, "nomartista");
-    img.getElementsByTagName("figcaption")[0].appendChild(div);
+    //img.getElementsByTagName("figcaption")[0].appendChild(div);
     
     document.getElementById("item" + artist).appendChild(img);
+    document.getElementById("item" + artist).appendChild(div);
+
 
     this.nItem++;
   },
@@ -193,6 +198,8 @@ var DOMManager = {
   printTracks: function(element, i){
     
     if (i ==  0){
+      div = this.createDiv("repr","repr");
+      document.getElementById("Bigcontainer").appendChild(div);
       this.createTable();
     }
     
@@ -298,10 +305,11 @@ var DOMManager = {
     return form;
   },
 
-  NewAddButton: function(){
+  NewAddButton: function(i){
     button = document.createElement("button");
       button.innerHTML = "Add to Playlist";
-      button.setAttribute("id","Add");
+      button.setAttribute("class","Add")
+      button.setAttribute("id","Addd"+i);
     return button;  
   },
 
@@ -311,14 +319,20 @@ var DOMManager = {
       video.setAttribute("src", url+"?rel=0&autoplay=1");
       video.setAttribute("id", "song"+i);
       video.setAttribute("class","song");
-
+      
+      document.getElementById("repr").setAttribute("id","repr"+i);
+      
+      document.getElementById("repr"+i).appendChild(video);
       var button = this.NewPlaylistCell();
-      document.getElementById("td-playlist"+i).appendChild(button);
-      var button2 = this.NewAddButton();
-      document.getElementById("td-playlist"+i).appendChild(button2);
+      //document.getElementById("td-playlist"+i).appendChild(button);
+      document.getElementById("repr"+i).appendChild(button);
+      var button2 = this.NewAddButton(i);
+      //document.getElementById("td-playlist"+i).appendChild(button2);
+      document.getElementById("repr"+i).appendChild(button2);
       Listener.addTrackToPlaylistListener();
 
-      document.getElementById("td-play"+i).appendChild(video);
+      //document.getElementById("td-play"+i).appendChild(video);
+
 
       document.getElementById("play"+i).style.display = "none";
   },

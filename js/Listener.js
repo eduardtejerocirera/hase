@@ -88,6 +88,7 @@ var Listener = {
 
   getIdFromEvent: function(id){
     var i  = id;
+    console.log(i);
     i = i.substring(4);
     if (i.length == 1 || i.length == 2){
       i = parseInt(i);
@@ -174,7 +175,7 @@ var Listener = {
     }
   },
 
-  PlaySongListener:function    (){
+  PlaySongListener:function(){
 
     var i = this.getIdFromEvent(event.srcElement.id);
     if (i != -1){
@@ -206,7 +207,6 @@ var Listener = {
     if (i != -1){
       i = i + DOMManager.page*INCREMENT;
       item = DOMManager.items[i];
-      console.log(item);
       DBOps.addTrackToPlaylist(item,"favoritos");
     }
   },
@@ -227,7 +227,7 @@ var Listener = {
   },
 
   addTrackToPlaylistListener: function(){
-    button= document.getElementById("Add");
+    button= document.getElementsByClassName("Add")[0];
     button.addEventListener("click",function(){
       Listener.trackToPlaylistListner();
     });
@@ -235,13 +235,16 @@ var Listener = {
   
   trackToPlaylistListner: function(){
     var i = event.srcElement.parentElement.id;
-    i = i.substring(11);
-    i = parseInt(i);
-    item = DOMManager.items[i];
+    i = this.getIdFromEvent(i);
+    if (i != -1){
+      item = DOMManager.items[i];
+      console.log(i);
+      console.log(DOMManager.items);
 
-    var obj = document.getElementById("addButton");
-    var playlist = obj.options[obj.selectedIndex].text;
-    DBOps.addTrackToPlaylist(item,playlist);
+      var obj = document.getElementById("addButton");
+      var playlist = obj.options[obj.selectedIndex].text;
+      DBOps.addTrackToPlaylist(item,playlist);
+    }
   },
 
   addOpenPlaylistListener: function(){

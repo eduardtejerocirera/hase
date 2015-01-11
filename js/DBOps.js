@@ -12,13 +12,16 @@ var DBOps = {
   },
   updateReproduced: function(item){
     method = "PUT";
+    var alb = this.noQuotes(item.album);
+    var art = this.noQuotes(item.artist);
+    var name = this.noQuotes(item.name);
     query = "SELECT reproduced FROM track where spotify_track_id = '"+item.spotify_track_id + "'";
-
         if (!this.existsInDB(query)){
           query = "INSERT INTO track (spotify_track_id, album, artist, name, reproduced, spotify_artist_id, spotify_album_id) VALUES ('"
-            + item.spotify_track_id + "','" + item.album + "','" + item.artist + "','" + item.name + "',1,'" + item.spotify_artist_id + "','" +
+            + item.spotify_track_id + "','" + alb + "','" + art + "','" + name + "',1,'" + item.spotify_artist_id + "','" +
             item.spotify_album_id +"')";
            j = this.request(method, query);
+           console.log(j);
         }
         else{
           r = j.response[0].reproduced;
@@ -42,7 +45,7 @@ var DBOps = {
   },
 
   createPlaylist: function(name, id){
-    
+    name = this.noQuotes(name);
     method = "PUT";
     query = "SELECT name FROM playlist WHERE name = '" + name + "'";
     if (!this.existsInDB(query)){
@@ -62,12 +65,14 @@ var DBOps = {
   },
 
   addTrackToPlaylist: function(item, playlist){
+    playlist = this.noQuotes(playlist);
     query1 = "SELECT track.track_id FROM track WHERE track.spotify_track_id = '" + item.spotify_track_id + "'";
     query2 = "SELECT playlist.playlist_id FROM playlist WHERE playlist.name = '" + playlist + "'";
     this.updateReproduced(item);
     //this.createPlaylist(playlist, DOMManager.playlist.length+1);
     j1 = this.request("PUT", query1);
     j2 = this.request("PUT", query2);
+    console.log(j1);
     track_id = j1.response[0].track_id;
     playlist_id = j2.response[0].playlist_id;
 
@@ -109,6 +114,7 @@ var DBOps = {
   },
 
   showPlaylistTracks: function(name){
+    name = this.noQuotes(name);
     query = "SELECT playlist_id FROM playlist WHERE name = '"+name+"'";
     j = this.request("PUT",query);
     playlist_id = j.response[0].playlist_id;
@@ -125,6 +131,7 @@ var DBOps = {
   },
 
   deletePlaylist: function(name){
+    name = this.noQuotes(name);
     query = "SELECT playlist_id FROM playlist WHERE name= '"+name+"'";
 
     j = this.request("PUT",query);
@@ -135,6 +142,11 @@ var DBOps = {
     query = "DELETE FROM playlist WHERE playlist_id="+playlist_id;
     j = this.request("PUT", query);
 
+  },
+
+  noQuotes: function(str){
+    str = str.replace(/'+/g,'');
+    return str;
   }
 
 };

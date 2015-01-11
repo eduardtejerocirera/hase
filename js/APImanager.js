@@ -1,3 +1,4 @@
+
 var APImanager = {
   
   request: function(method, url){
