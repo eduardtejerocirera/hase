@@ -58,7 +58,14 @@ var Listener = {
       DOMManager.items = items;
       DOMManager.type = "album";
       DOMManager.resetPages();
-      DOMManager.printItems("Albums from " + artist);
+
+      Animations.pulse(event.srcElement.parentElement.id,1.5)
+    //Afegim un delay per a poder fer l'animació
+     var delay=300;//2 seconds
+     setTimeout(function(){
+        DOMManager.printItems("Albums from " + artist);
+    },delay); 
+      
     }
   },
 
@@ -81,7 +88,14 @@ var Listener = {
       DOMManager.items = items;
       DOMManager.type = "track";
       DOMManager.resetPages();
-      DOMManager.printItems("Tracks from " + album.name);
+
+      Animations.pulse(event.srcElement.parentElement.id,1.5)
+    //Afegim un delay per a poder fer l'animació
+     var delay=300;//2 seconds
+     setTimeout(function(){
+        DOMManager.printItems("Tracks from " + album.name);
+    },delay); 
+      
 
     }
   },
@@ -176,21 +190,29 @@ var Listener = {
   },
 
   PlaySongListener:function(){
-
     var i = this.getIdFromEvent(event.srcElement.id);
-    if (i != -1){
-      i = i + DOMManager.page*INCREMENT;
-      item = DOMManager.items[i];
-      artist = DOMManager.items[i].artist;
-      track = DOMManager.items[i].name;
-      video = APImanager.y_getVideo(artist,track);
-      if (this.lastPlayed != -1){
-        DOMManager.destroyVideos(this.lastPlayed);
+
+     
+      if (i != -1){
+        i = i + DOMManager.page*INCREMENT;
+        item = DOMManager.items[i];
+        artist = DOMManager.items[i].artist;
+        track = DOMManager.items[i].name;
+        video = APImanager.y_getVideo(artist,track);
+
+        
+    
+          if (this.lastPlayed != -1){
+            DOMManager.destroyVideos(this.lastPlayed);
+          }
+
+          DOMManager.embedVideo(video,i);
+          this.lastPlayed = i;
+          DBOps.addTrackToPlaylist(item,"default");
+       
+
       }
-      DOMManager.embedVideo(video,i);
-      this.lastPlayed = i;
-      DBOps.addTrackToPlaylist(item,"default");
-    }
+      
   },
 
   addFavSongListener: function(){
@@ -204,11 +226,18 @@ var Listener = {
 
   favSongListener: function(){
     var i = this.getIdFromEvent(event.srcElement.id);
-    if (i != -1){
+
+    Animations.pulse(event.srcElement.id,2.5);
+     //Afegim un delay per a poder fer l'animació
+    var delay=300;//2 seconds
+    setTimeout(function(){
+      if (i != -1){
       i = i + DOMManager.page*INCREMENT;
       item = DOMManager.items[i];
       DBOps.addTrackToPlaylist(item,"favoritos");
     }
+    },delay); 
+    
   },
 
   addNewPlaylistListener: function(){

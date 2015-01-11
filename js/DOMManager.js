@@ -350,9 +350,10 @@ var DOMManager = {
     }*/
 
     document.getElementById("song"+i).remove();
-    document.getElementById("Add").remove();
+    document.getElementById("Addd"+i).remove();
     document.getElementById("addButton").remove();
     document.getElementById("play"+i).style.display = "inline";
+    document.getElementById("repr"+i).setAttribute("id","repr");
 
 
   },
