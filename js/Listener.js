@@ -1,6 +1,12 @@
+/**
+* Listener es una clase que gestiona los Listeners y captura eventos para lanzar triggers.
+**/
 var Listener = {
   lastPlayed: -1,
 
+  /**
+  * Es la encargada de inicializar el buscador, el de añadir nueva playlist y el header que hace de main page
+  */
   init: function(){
     this.addSearchListener();
     this.addMainPageListener();
@@ -19,6 +25,11 @@ var Listener = {
     DOMManager.mainPage();
   },
 
+
+
+  /**
+  * Función que captura el texto escrito del textbox, pide los itens relacionados con la búsqueda y los printa por pantalla
+  */
   searchListener: function(){
     DOMManager.resetPages();
     type = DOMManager.getOptionComboBox();
@@ -31,6 +42,11 @@ var Listener = {
     
   },
 
+
+
+  /**
+  * Asigna el listener al searchButton
+  */
   addSearchListener: function(){
     var button = document.getElementById("searchButton");
     button.addEventListener("click",function(){
@@ -38,6 +54,10 @@ var Listener = {
     });
   },
 
+
+  /**
+  * Asigna el listener a todos los artistas mostrados por pantalla
+  */
   addArtistListener: function(){
     for (i = 0; i < DOMManager.nItem; i++){
       var artist = document.getElementById("item"+i);
@@ -47,6 +67,10 @@ var Listener = {
     }
   },
 
+
+  /**
+  * Captura el id del artista clicado, buscamos sus albums y los printamos. También hacemos una pequeña animación al clicar.
+  */
   artistListener: function(){
     var i  = this.getIdFromEvent(event.srcElement.parentElement.id);
     if (i != -1){
@@ -69,6 +93,10 @@ var Listener = {
     }
   },
 
+
+  /**
+  * Asigna el listener a todos los albums mostrados por pantalla
+  */
   addAlbumListener: function(){
     for (i = 0; i < DOMManager.nItem; i++){
       var album = document.getElementById("item"+i);
@@ -78,6 +106,10 @@ var Listener = {
     }
   },
 
+
+  /**
+  * Captura el id del album clicado, buscamos sus tracks y las mostramos. También hacemos una pequeña animación al clicar.
+  */
   albumListener: function(){
     var i = this.getIdFromEvent(event.srcElement.parentElement.id);
     if (i != -1){
@@ -90,16 +122,20 @@ var Listener = {
       DOMManager.resetPages();
 
       Animations.pulse(event.srcElement.parentElement.id,1.5)
-    //Afegim un delay per a poder fer l'animació
-     var delay=300;//2 seconds
-     setTimeout(function(){
+      //Afegim un delay per a poder fer l'animació
+      var delay=300;//2 seconds
+      setTimeout(function(){
         DOMManager.printItems("Tracks from " + album.name);
-    },delay); 
-      
-
+      },delay); 
     }
   },
 
+
+  /**
+  * Recibe un identificador de tipo string, elimina los 4 primeros caracteres y devuelve un entero.
+  * @param  id identificador con el formato de 4 letras y 1 número (siempre)
+  * @return i número entero
+  */
   getIdFromEvent: function(id){
     var i  = id;
     console.log(i);
@@ -112,6 +148,12 @@ var Listener = {
     return i;
   },
 
+
+  /**
+  * En función de la entrada scamos un equivalente que nos servirá más adelante
+  * @param type string que indica el tipo de búsqueda a realizar
+  * @return devuelve una string equivalente
+  */
   setType: function(type){
     if (type === "Albums"){
       return "album";
@@ -124,6 +166,10 @@ var Listener = {
     }
   },
 
+
+  /**
+  * Añadimos el Listener al botón previous page
+  */
   addPreviousButtonListener: function(){
     button = document.getElementById("nextL");
     button.addEventListener("click", function(){
@@ -131,6 +177,10 @@ var Listener = {
     });
   },
 
+
+  /**
+  * Añadimos el Listener al botón next page
+  */
   addNextButtonListener: function(){
     button = document.getElementById("nextR");
     button.addEventListener("click", function(){
@@ -138,25 +188,30 @@ var Listener = {
     });
   },
 
+
+  /**
+  * Función que pinta más items del array (avanza página). La transición es tipo Slide (Animacion)
+  */
   nextPage: function(){
     DOMManager.page ++;
     DOMManager.iVal += INCREMENT;
     DOMManager.fVal += INCREMENT;
-    /*if (DOMManager.fVal > 100){
-      DOMManager.iVal = 80;
-      DOMManager.fVal = 100;
-    }*/
+   
     Animations.slideToLeft('Bigcontainer',2000);
-    //Afegim un delay per a poder fer l'animació
-    var delay=300;//2 seconds
+
+    //Tenemos que añadir un delay para que la animación haga su efecto
+    var delay=300;
     setTimeout(function(){
         DOMManager.printItems("Most Popular Albums");
-        //Animations.slideToLeft('Bigcontainer',1000);
-    //your code to be executed after 1 seconds
     },delay); 
 
   },
 
+
+
+  /**
+  * Función que pinta más items del array (retrocede página). La transición es tipo Slide (Animacion)
+  */
   previousPage: function(){
     DOMManager.page --;
     DOMManager.iVal -= INCREMENT;
@@ -177,6 +232,10 @@ var Listener = {
     },delay); 
   },
 
+
+  /**
+  * Añade el listener de reproducir canción al icono.
+  */
   addPlaySongListener: function(){
 
     this.lastPlayed = -1;
@@ -189,6 +248,10 @@ var Listener = {
     }
   },
 
+
+  /**
+  * Captura evento, úsca ek id, recopila la información y embeve un video de youtube de la canción en directo
+  */
   PlaySongListener:function(){
     var i = this.getIdFromEvent(event.srcElement.id);
 
@@ -200,8 +263,6 @@ var Listener = {
         track = DOMManager.items[i].name;
         video = APImanager.y_getVideo(artist,track);
 
-        
-    
           if (this.lastPlayed != -1){
             DOMManager.destroyVideos(this.lastPlayed);
           }
@@ -209,12 +270,13 @@ var Listener = {
           DOMManager.embedVideo(video,i);
           this.lastPlayed = i;
           DBOps.addTrackToPlaylist(item,"default");
-       
-
       }
-      
   },
 
+
+  /**
+  * Añade el listener de favoritos al icono verde del pulgar
+  */
   addFavSongListener: function(){
     for (i = 0; i < DOMManager.nItem; i++){
       var thumb = document.getElementById("favo"+i);
@@ -224,6 +286,10 @@ var Listener = {
     }
   },
 
+
+  /**
+  * Captura cual es la canción que queremos añadir a favoritos y la añade.
+  */
   favSongListener: function(){
     var i = this.getIdFromEvent(event.srcElement.id);
 
@@ -240,6 +306,10 @@ var Listener = {
     
   },
 
+
+  /**
+  * Añade el listener al botón de new playlist
+  */
   addNewPlaylistListener: function(){
     button = document.getElementById("newplaylist");
     button.addEventListener("click", function(){
@@ -247,6 +317,10 @@ var Listener = {
     });
   },
 
+
+  /**
+  * Captura el contenido del textbox y crea una nueva playlist con el nombre del textbox
+  */
   newPlaylistListtener: function(){
     txt = document.getElementById("textboxN").value;
     DBOps.createPlaylist(txt,DOMManager.playlist.length+1);
@@ -255,6 +329,10 @@ var Listener = {
     Listener.addDeletePlaylistListener();  
   },
 
+
+  /**
+  * Añade el listener al botón "Add to playlist"
+  */
   addTrackToPlaylistListener: function(){
     button= document.getElementsByClassName("Add")[0];
     button.addEventListener("click",function(){
@@ -262,6 +340,10 @@ var Listener = {
     });
   },
   
+
+  /**
+  * Captura el evento, coge la imformación y añade esa canción a la playlist seleccionada en el desplegable
+  */
   trackToPlaylistListner: function(){
     var i = event.srcElement.parentElement.id;
     i = this.getIdFromEvent(i);
@@ -276,6 +358,10 @@ var Listener = {
     }
   },
 
+
+  /**
+  * Añade el listener al boton de la playlist
+  */
   addOpenPlaylistListener: function(){
 
     for(i = 1; i < DOMManager.playlist.length; i++){
@@ -286,6 +372,10 @@ var Listener = {
     }
   },
 
+
+  /**
+  * Escucha ue playlist estás clicando y te la abre con todas las tracks que has añadido en ella
+  */
   openPlaylistListener: function(){
     var i = event.srcElement.id;
     i = this.getIdFromEvent(i);
@@ -296,6 +386,10 @@ var Listener = {
     DOMManager.printItems("Playlist: "+ name);
   },
 
+
+  /**
+  * Añade el listener al botón de eliminar playlist
+  */
   addDeletePlaylistListener: function(){
     for(i = 2; i < DOMManager.playlist.length; i++){
       button = document.getElementById("dele"+i);
@@ -305,6 +399,10 @@ var Listener = {
     }
   },
 
+
+  /**
+  * Captura el evento y elimina la playlist, tanto de la pantalla (DOM) como en la base de datos (DBOps)
+  */
   deletePlaylistListener: function(){
     var i = event.srcElement.id;
     i = this.getIdFromEvent(i);
